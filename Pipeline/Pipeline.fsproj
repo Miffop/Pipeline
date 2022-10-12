@@ -9,6 +9,10 @@
   <ItemGroup>
     <Compile Include="AST\AST.fs" />
     <Compile Include="AST\CodeBlock.fs" />
+    <Compile Include="AST\Expressions\Inline\ValueExression.fs" />
+    <Compile Include="AST\Expressions\Inline\LiteralExpression.fs" />
+    <Compile Include="AST\Expressions\Commands\Print.fs" />
+    <Compile Include="AST\Expressions\Constructs\DefineExpression.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>

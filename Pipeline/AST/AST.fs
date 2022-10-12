@@ -25,7 +25,8 @@ type PContex(parent:PContex option) =
          |(true,result),_->result
          |(false,_),Some(parent)->parent.Find(defname)
          |_->raise <| new System.Exception()
-    member this.Add = defs.Add
+    member this.Add defname defenition = 
+        defs.[defname]<-defenition
 
 //AST Nodes
 
