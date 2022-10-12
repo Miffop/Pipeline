@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="AST\AST.fs" />
+    <Compile Include="AST\CodeBlock.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>

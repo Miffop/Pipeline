@@ -1,13 +1,14 @@
 ﻿namespace Pipeline.AST
 
+//Data
 
 type PData = obj
 type PFunc = delegate of obj->obj
-
 type PFunOrData = 
     |Fun of PFunc
     |Data of PData
 
+//Contex
 type PContex(parent:PContex option) = 
     
     let mutable object:obj = null
@@ -26,8 +27,7 @@ type PContex(parent:PContex option) =
          |_->raise <| new System.Exception()
     member this.Add = defs.Add
 
-type ICommand =
-    abstract Exec:PContex->PData
+//AST Nodes
 
 type IExpression = 
     abstract Eval:PContex->PFunOrData
