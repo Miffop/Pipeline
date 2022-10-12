@@ -4,6 +4,6 @@ open Pipeline.AST
 
 type ValueExpression(defname:string) = 
     interface IExpression with
-        member this.Eval c = 
+        member this.Eval (c,o) = 
             defname
             |> c.Find

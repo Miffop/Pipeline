@@ -4,6 +4,6 @@ open Pipeline.AST
 
 type DefineExpression(defname:string,def:IExpression)= 
     interface IExpression with
-        member this.Eval c = 
-            c.Add defname (def.Eval c)
-            Data(c.Object)
+        member this.Eval (c,o) = 
+            c.Add defname <| def.Eval(c,null) 
+            Data(o)

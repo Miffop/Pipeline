@@ -3,16 +3,15 @@
 
 type CodeBlock(Commands:IExpression seq) = 
     interface IExpression with
-        member this.Eval (c:PContex) = 
+        member this.Eval (c:PContex,object:obj) = 
             let contex=new PContex(Some c)
             Commands
             |>Seq.fold(fun a x->
-                contex.Object<-a
-                match x.Eval contex with
+                match x.Eval <| (contex,a) with
                 |Fun(f)->
                     f.Invoke(a)
                 |Data(d)->
                     d
-            ) contex.Object
+            ) null
             |> Data
             

@@ -8,7 +8,7 @@ let main argv =
         Pipeline.AST.Expressions.Commands.PrintExpression()
     ])
 
-    main.Eval(new Pipeline.AST.PContex())
+    main.Eval(new Pipeline.AST.PContex(),null)
     |> printfn "%A"
 
     System.Console.ReadKey() |> ignore
