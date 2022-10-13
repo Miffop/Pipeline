@@ -1,15 +1,23 @@
-﻿[<EntryPoint>]
+﻿
+open Pipeline.AST
+open Pipeline.AST.Expressions.Inline
+open Pipeline.AST.Expressions.Commands
+open Pipeline.AST.Expressions.Constructs
+
+[<EntryPoint>]
 let main argv =
 
-
     let main:Pipeline.AST.IExpression = Pipeline.AST.CodeBlock([
-        Pipeline.AST.Expressions.Constructs.DefineExpression("x",Pipeline.AST.Expressions.Inline.LiteralExpression(3))
-        Pipeline.AST.Expressions.Inline.ValueExpression("x")
-        Pipeline.AST.Expressions.Commands.PrintExpression()
+        DefineExpression("x",LiteralExpression("20"))
+        ForExpression("i",None,Some<|RangeExpression(LiteralExpression(0),LiteralExpression(9),None),true,CodeBlock([
+            SumExpression(IntExpression(ValueExpression("x")),ValueExpression("i"))
+            PrintExpression()
+        ]))
     ])
 
-    main.Eval(new Pipeline.AST.PContex(),null)
+    main.Eval(new PContex(),null)
     |> printfn "%A"
+
 
     System.Console.ReadKey() |> ignore
     0

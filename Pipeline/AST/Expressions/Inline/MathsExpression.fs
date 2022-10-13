@@ -3,11 +3,6 @@
 open Pipeline.AST
 
 
-type TypeMatchExeption(a:PFunOrData,b:PFunOrData) = 
-    inherit System.Exception()
-    override this.Message = sprintf "types don't match: %A, %A" a b
-
-
 type SumExpression(aExp:IExpression,bExp:IExpression) = 
     interface IExpression with
         member this.Eval (c,o) = 
@@ -19,7 +14,7 @@ type SumExpression(aExp:IExpression,bExp:IExpression) =
                 Data(a+b)
             |Data(:?string as a),Data(:?string as b)->
                 Data(a+b)
-            |_->raise <| new TypeMatchExeption(a,b)
+            |_->raise <| new TypeMatchException(a,b)
 type DiffExpression(aExp:IExpression,bExp:IExpression) = 
     interface IExpression with
         member this.Eval (c,o) = 
@@ -29,7 +24,7 @@ type DiffExpression(aExp:IExpression,bExp:IExpression) =
                 Data(a-b)
             |Data(:?float as a),Data(:?float as b)->
                 Data(a-b)
-            |_->raise <| new TypeMatchExeption(a,b)
+            |_->raise <| new TypeMatchException(a,b)
 type MulExpression(aExp:IExpression,bExp:IExpression) = 
     interface IExpression with
         member this.Eval (c,o) = 
@@ -39,7 +34,7 @@ type MulExpression(aExp:IExpression,bExp:IExpression) =
                 Data(a*b)
             |Data(:?float as a),Data(:?float as b)->
                 Data(a*b)
-            |_->raise <| new TypeMatchExeption(a,b)
+            |_->raise <| new TypeMatchException(a,b)
 type DivExpression(aExp:IExpression,bExp:IExpression) = 
     interface IExpression with
         member this.Eval (c,o) = 
@@ -49,7 +44,7 @@ type DivExpression(aExp:IExpression,bExp:IExpression) =
                 Data(a/b)
             |Data(:?float as a),Data(:?float as b)->
                 Data(a/b)
-            |_->raise <| new TypeMatchExeption(a,b)
+            |_->raise <| new TypeMatchException(a,b)
 type ModExpression(aExp:IExpression,bExp:IExpression) = 
     interface IExpression with
         member this.Eval (c,o) = 
@@ -59,4 +54,4 @@ type ModExpression(aExp:IExpression,bExp:IExpression) =
                 Data(if sign(a)=sign(b) then a%b else a%b+b)
             |Data(:?float as a),Data(:?float as b)->
                 Data(if sign(a)=sign(b) then a%b else a%b+b)
-            |_->raise <| new TypeMatchExeption(a,b)
+            |_->raise <| new TypeMatchException(a,b)

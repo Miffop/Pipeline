@@ -1,12 +1,19 @@
 ﻿namespace Pipeline.AST
 
 //Data
-
 type PData = obj
 type PFunc = delegate of obj->obj
 type PFunOrData = 
     |Fun of PFunc
     |Data of PData
+
+type PSeq = System.Collections.IEnumerable
+
+[<AutoOpen>]
+module PSeqExtentions =
+    type System.Collections.IEnumerable with
+        member this.Seq = this |> Seq.cast<obj>
+
 
 //Contex
 type PContex(parent:PContex option) = 
@@ -23,7 +30,7 @@ type PContex(parent:PContex option) =
          |(true,result),_->result
          |(false,_),Some(parent)->parent.Find(defname)
          |_->raise <| new System.Exception()
-    member this.Add defname defenition = 
+    member this.Def defname defenition = 
         defs.[defname]<-defenition
 
 //AST Nodes
