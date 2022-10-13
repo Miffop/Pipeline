@@ -18,6 +18,8 @@
     <Compile Include="AST\Expressions\Commands\Print.fs" />
     <Compile Include="AST\Expressions\Constructs\ForLoop.fs" />
     <Compile Include="AST\Expressions\Constructs\DefineExpression.fs" />
+    <Compile Include="Parser\Tokens\Token.fs" />
+    <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>
