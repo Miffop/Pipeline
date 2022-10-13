@@ -57,5 +57,4 @@ type TokenParser(parser:ITokenParser seq) =
                     offset<-offset+1
                     isMargin<-false
             index<-index+tokLength
-
-        ()
+        TokList

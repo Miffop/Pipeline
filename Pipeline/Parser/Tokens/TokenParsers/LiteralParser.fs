@@ -26,7 +26,7 @@ type StringParser() =
                 0
         member this.GetToken(code,index) = 
             (this:>ITokenParser).GetLength(code,index)
-            |>(fun x->code.Substring(index,x))
+            |>(fun x->code.Substring(index+1,x-2))
             |>(fun x->TokenContent("String",x))
             |>Some
 type FloatParser() = 

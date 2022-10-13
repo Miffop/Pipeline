@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Test.txt" />
     <Compile Include="AST\AST.fs" />
     <Compile Include="AST\CodeBlock.fs" />
     <Compile Include="AST\Exceptions.fs" />
@@ -19,8 +20,12 @@
     <Compile Include="AST\Expressions\Constructs\ForLoop.fs" />
     <Compile Include="AST\Expressions\Constructs\DefineExpression.fs" />
     <Compile Include="Parser\Tokens\Token.fs" />
+    <Compile Include="Parser\Tokens\TokenParsers\CommentParser.fs" />
+    <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 </Project>
