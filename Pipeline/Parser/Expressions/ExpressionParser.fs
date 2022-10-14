@@ -43,7 +43,7 @@ and CodeParser(structParser:IStructParser seq,expParser:IExpressionParser seq,op
                 |>Seq.map(fun (i,x)->i,x,opParser|>Seq.map(fun p->p,p.GetPriority x)|>Seq.filter(fun (_,p)->p<> -1)|>Seq.exactlyOne)
                 |>Seq.maxBy(fun (i,x,(p,pr))->pr)
             
-            let left = this.ParseExpression(code,index,i)
+            let left = this.ParseExpression(code,index,operOffset)
             let right = this.ParseExpression(code,index+1,length-operOffset-1)
             operParser.GetExpression(oper,left,right)
         else
