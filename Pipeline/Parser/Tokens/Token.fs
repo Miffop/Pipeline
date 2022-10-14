@@ -13,14 +13,24 @@ type Token(toktype:string,content:string,margin:int,offset:int,line:int) =
     member this.Offset = offset //положение в строке за вычетом отступа
     member this.TokenContent = new TokenContent(toktype,content)
     
-    interface System.IComparable<Token> with
+    interface System.IComparable with
         member this.CompareTo other = 
-            let marginDifference = this.Margin-other.Margin
-            let offsetDifference = this.Offset-other.Offset
-            if marginDifference<>0 then
-                marginDifference
-            else
-                offsetDifference
+            match other with
+            | :?Token as other ->
+                let marginDifference = this.Margin-other.Margin
+                let offsetDifference = this.Offset-other.Offset
+                if marginDifference<>0 then
+                    marginDifference
+                else
+                    offsetDifference
+            |_ -> -1
+    override this.Equals obj =
+        match obj with
+        | :?Token as other->(this:>System.IComparable).CompareTo(other)=0
+        |_->false
+    override this.GetHashCode() =
+        this.Margin+this.Offset
+
 
 type ITokenParser = 
     abstract GetLength:code:string*index:int->int
