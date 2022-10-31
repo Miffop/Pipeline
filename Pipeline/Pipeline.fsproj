@@ -9,16 +9,14 @@
   <ItemGroup>
     <Content Include="Test.txt" />
     <Compile Include="AST\AST.fs" />
-    <Compile Include="AST\CodeBlock.fs" />
+    <Compile Include="AST\BasicFuncs.fs" />
     <Compile Include="AST\Exceptions.fs" />
-    <Compile Include="AST\Expressions\Inline\RangeExpression.fs" />
-    <Compile Include="AST\Expressions\Inline\MathsExpression.fs" />
-    <Compile Include="AST\Expressions\Inline\ValueExression.fs" />
-    <Compile Include="AST\Expressions\Inline\LiteralExpression.fs" />
-    <Compile Include="AST\Expressions\Commands\ConvertionExpression.fs" />
-    <Compile Include="AST\Expressions\Commands\Print.fs" />
-    <Compile Include="AST\Expressions\Constructs\ForLoop.fs" />
-    <Compile Include="AST\Expressions\Constructs\DefineExpression.fs" />
+    <Compile Include="AST\Funcs\ForLoop.fs" />
+    <Compile Include="AST\Funcs\PrintFunc.fs" />
+    <Compile Include="AST\Funcs\RangeFuncs.fs" />
+    <Compile Include="AST\Funcs\MathsFuncs.fs" />
+    <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
+    <Compile Include="AST\Expressions\FlowExpressions.fs" />
     <Compile Include="Parser\Tokens\Token.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\CommentParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />

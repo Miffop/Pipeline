@@ -1,22 +1,21 @@
 ﻿namespace Pipeline.AST
 
-//Data
-type PData = obj
-type PFunc = delegate of obj->obj
-type PFunOrData = 
-    |Fun of PFunc
+
+
+
+
+//Data and Functions
+[<AbstractClass>]
+type PFunc() = 
+    abstract Eval:argument:PFunOrData->PFunOrData
+
+and PData = obj
+and PFunOrData = 
+    |Func of PFunc
     |Data of PData
 
-type PSeq = System.Collections.IEnumerable
-
-[<AutoOpen>]
-module PSeqExtentions =
-    type System.Collections.IEnumerable with
-        member this.Seq = this |> Seq.cast<obj>
-
-
 //Contex
-type PContex(parent:PContex option) = 
+and PContex(parent:PContex option) = 
     
     let defs = System.Collections.Generic.Dictionary<string,PFunOrData>()
 
@@ -35,5 +34,15 @@ type PContex(parent:PContex option) =
 
 //AST Nodes
 
-type IExpression = 
-    abstract Eval:contex:PContex*Object:obj->PFunOrData
+[<AbstractClass>]
+type IExpression() = 
+    abstract Eval:contex:PContex->PFunOrData
+
+
+// Seq
+type PSeq = System.Collections.IEnumerable
+
+[<AutoOpen>]
+module PSeqExtentions =
+    type System.Collections.IEnumerable with
+        member this.Seq = this |> Seq.cast<obj>
