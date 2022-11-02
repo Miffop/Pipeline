@@ -3,9 +3,3 @@ define Factorial of n as
     1 to n
     product
 
-
-define f as
-    for i in 1 to 2 yield
-        i*2+1
-    for i do
-        print i

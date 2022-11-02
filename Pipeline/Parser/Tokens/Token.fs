@@ -31,10 +31,11 @@ type Token(toktype:string,content:string,margin:int,offset:int,line:int) =
     override this.GetHashCode() =
         this.Margin+this.Offset
 
+open System.Collections.Generic
 
 type ITokenParser = 
     abstract GetLength:code:string*index:int->int
-    abstract GetToken:code:string*index:int->TokenContent option
+    abstract GetToken:code:string*index:int*prev:List<Token>->TokenContent option
 type TokenParser(parser:ITokenParser seq) = 
     member this.Parse (code:string) =
         let mutable index = 0
@@ -42,15 +43,16 @@ type TokenParser(parser:ITokenParser seq) =
         let mutable margin = 0
         let mutable offset = 0
         let mutable isMargin = true
-        let TokList = System.Collections.Generic.List<Token>()
+        let TokList = List<Token>()
 
         while index<code.Length do
             let tokOption,tokLength=
                 parser
                 |> Seq.maxBy(fun p->p.GetLength(code,index))
-                |> (fun p->p.GetToken(code,index),p.GetLength(code,index))
+                |> (fun p->p.GetToken(code,index,TokList),p.GetLength(code,index))
             match tokOption with
-            |Some(tok)->TokList.Add(Token(tok,margin,offset,line))
+            |Some(tok)->
+                TokList.Add(Token(tok,margin,offset,line))
             |None->()
             for c in code.Substring(index,tokLength) do                
                 match c with

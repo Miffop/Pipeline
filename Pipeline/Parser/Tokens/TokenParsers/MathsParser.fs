@@ -8,7 +8,7 @@ type ArithmeticParser() =
             match code.[index] with
             |'+'|'-'|'*'|'/'|'%'->1
             |_->0
-        member this.GetToken(code,index) =
+        member this.GetToken(code,index,prev) =
             (this:>ITokenParser).GetLength(code,index)
             |>(fun x->code.Substring(index,x))
             |>(fun x->TokenContent("Operation",x))

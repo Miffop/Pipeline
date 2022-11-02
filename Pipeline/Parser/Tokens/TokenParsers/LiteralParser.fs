@@ -9,7 +9,7 @@ type IntParser() =
             while System.Char.IsDigit(code.[index+cnt]) do
                 cnt<-cnt+1
             cnt
-        member this.GetToken (code,index)=
+        member this.GetToken (code,index,prev)=
             (this:>ITokenParser).GetLength(code,index)
             |> (fun x->code.Substring(index,x))
             |> (fun x->TokenContent("Int",x))
@@ -24,7 +24,7 @@ type StringParser() =
                 cnt+1
             else
                 0
-        member this.GetToken(code,index) = 
+        member this.GetToken(code,index,prev) = 
             (this:>ITokenParser).GetLength(code,index)
             |>(fun x->code.Substring(index+1,x-2))
             |>(fun x->TokenContent("String",x))
@@ -36,7 +36,7 @@ type FloatParser() =
             while System.Char.IsDigit(code.[index+cnt]) || code.[index+cnt]='.' do
                 cnt<-cnt+1
             cnt
-        member this.GetToken (code,index)=
+        member this.GetToken (code,index,prev)=
             (this:>ITokenParser).GetLength(code,index)
             |> (fun x->code.Substring(index,x))
             |> (fun x->TokenContent("Float",x))

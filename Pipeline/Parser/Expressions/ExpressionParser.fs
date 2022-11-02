@@ -8,23 +8,9 @@ type IOperationExpressionParser =
     abstract GetExpression:op:Token*left:IExpression*right:IExpression->IExpression
 and IExpressionParser = 
     abstract GetExpression:code:Token seq*index:int*length:int*ep:CodeParser->IExpression option
-and IStructParser = 
-    abstract Parse:code:Token seq*index:int*ep:CodeParser->(IExpression*int)option
 
-and CodeParser(structParser:IStructParser seq,expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
+and CodeParser(expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
     
-    member this.ParseCommand (code:Token seq,index:int) = 
-        let structOption = 
-            structParser
-            |>Seq.choose(fun x->x.Parse(code,index,this))
-            |>Seq.tryExactlyOne
-        match structOption with
-        |Some(structure)->structure
-        |None->
-            let length = 
-                code
-                |>Seq.findIndex(fun x->x.Type="EndLine")
-            (this.ParseExpression(code,index,length),(length+1))
     
     member this.ParseExpression(code:Token seq,index:int,length:int) = 
         let ops = [
@@ -52,14 +38,6 @@ and CodeParser(structParser:IStructParser seq,expParser:IExpressionParser seq,op
             |> Seq.exactlyOne
 
     member this.ParseCodeBlock (code:Token seq,index:int)=
-        let commandList = 
-            Seq.unfold(fun i->
-                if i<Seq.length code && (Seq.item (index+i) code)>(Seq.item index code) then 
-                    let commandExpression,commandLength = this.ParseCommand(code,index+i)
-                    let i = commandLength+i
-                    Some((commandExpression,i),i)
-                else 
-                    None
-            ) index
-        CodeBlock(commandList|>Seq.map(fun (x,_)->x)),(commandList|>Seq.last|>snd)
-    
+        let first = code |> Seq.item index  
+        let codeBlockLength = code |> Seq.indexed |> Seq.filter(fun (i,x)->i>=index) |> Seq.map(fun (i,x)->x) |> Seq.takeWhile(fun x->x>first) |> Seq.length
+        this.ParseExpression(code,index,codeBlockLength)

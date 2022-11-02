@@ -7,9 +7,11 @@ open Pipeline.AST.Expressions.Constructs
 module tokens = 
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
+
+    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield"]
     let tokenParser =         
         TokenParser([
-            WordParser()
+            WordParser(keyWords)
             ArithmeticParser()
             IntParser()
             FloatParser()
