@@ -1,4 +1,4 @@
-﻿namespace Pipeline.AST.Expressions.Inline
+﻿namespace Pipeline.AST.Funcs
 
 open Pipeline.AST
 
@@ -34,7 +34,7 @@ type OperationExpressionCurried<'T>(a:'T,p:IPerformer<'T>) =
     
 
 
-type SumExpression() = 
+type SumFunc() = 
     inherit DataOperationFunc()
     override this.CurryInt a = 
         OperationExpressionCurried<int>(a,SumPerformerInt())
@@ -55,7 +55,7 @@ and SumPerformerString() =
     override this.Perform (a,b) = box(a+b)
     override this.ToString() = "(+)"
 
-type DiffExpression() = 
+type DiffFunc() = 
     inherit DataOperationFunc()
     override this.CurryInt a = 
         OperationExpressionCurried<int>(a,DiffPerformerInt())
@@ -72,12 +72,12 @@ and DiffPerformerFloat() =
     override this.Perform (a,b) = box(a-b)
     override this.ToString() = "(-)"
 
-type MulExpression() = 
+type MulFunc() = 
     inherit DataOperationFunc()
     override this.CurryInt a = 
-        OperationExpressionCurried<int>(a,DiffPerformerInt())
+        OperationExpressionCurried<int>(a,MulPerformerInt())
     override this.CurryFloat a = 
-        OperationExpressionCurried<float>(a,DiffPerformerFloat())
+        OperationExpressionCurried<float>(a,MulPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
 and MulPerformerInt() = 
@@ -89,12 +89,12 @@ and MulPerformerFloat() =
     override this.Perform (a,b) = box(a*b)
     override this.ToString() = "(*)"
 
-type DivExpression() = 
+type DivFunc() = 
     inherit DataOperationFunc()
     override this.CurryInt a = 
-        OperationExpressionCurried<int>(a,DiffPerformerInt())
+        OperationExpressionCurried<int>(a,DivPerformerInt())
     override this.CurryFloat a = 
-        OperationExpressionCurried<float>(a,DiffPerformerFloat())
+        OperationExpressionCurried<float>(a,DivPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
 and DivPerformerInt() = 
@@ -106,12 +106,12 @@ and DivPerformerFloat() =
     override this.Perform (a,b) = box(a/b)
     override this.ToString() = "(/)"
 
-type ModExpression() = 
+type ModFunc() = 
     inherit DataOperationFunc()
     override this.CurryInt a = 
-        OperationExpressionCurried<int>(a,DiffPerformerInt())
+        OperationExpressionCurried<int>(a,ModPerformerInt())
     override this.CurryFloat a = 
-        OperationExpressionCurried<float>(a,DiffPerformerFloat())
+        OperationExpressionCurried<float>(a,ModPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
 and ModPerformerInt() = 

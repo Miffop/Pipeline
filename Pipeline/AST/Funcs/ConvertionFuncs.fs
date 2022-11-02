@@ -1,4 +1,4 @@
-﻿namespace Pipeline.AST.Expressions.Commands
+﻿namespace Pipeline.AST.Funcs
 
 open Pipeline.AST
 

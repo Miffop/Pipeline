@@ -11,6 +11,18 @@ type ApplyExpression(FuncExp:IExpression,argExp:IExpression) =
             F.Eval(arg)
         |x->
             raise <| NotAFunctionException(x,arg)
+
+type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression) = 
+    inherit IExpression()
+    override this.Eval(c) = 
+        match argExp.Eval(c),FuncExp.Eval(c) with
+        |notFunc,Func(:?Identity as i) when sudoPipe->
+            notFunc
+        |Func(F),arg->
+            F.Eval(arg)
+        |notFunc,arg->
+            raise <| NotAFunctionException(notFunc,arg)
+
 type LiteralExpression(lit:PFunOrData) = 
     inherit IExpression()
     new(f) = LiteralExpression(Func f)
@@ -33,3 +45,7 @@ type DefExpression(defname:string,valExp:IExpression) =
     override this.Eval(c) =
         c.Def defname (valExp.Eval c)
         Func(Identity())
+type DefValueExpression(defname:string) = 
+    inherit  IExpression()
+    override this.Eval(c) = 
+        c.Find defname
