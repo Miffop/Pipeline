@@ -5,6 +5,7 @@ open Pipeline.Parser.Tokens
 
 type IOperationExpressionParser = 
     abstract GetPriority:op:Token->int
+    abstract LeftRightOrder:bool
     abstract GetExpression:op:Token*left:IExpression*right:IExpression->IExpression
 and IExpressionParser = 
     abstract GetExpression:code:Token seq*index:int*length:int*ep:CodeParser->IExpression option
@@ -24,14 +25,19 @@ and CodeParser(expParser:IExpressionParser seq,opParser:IOperationExpressionPars
                 |_ -> ()
         ]
         if ops.Length<>0 then
+            
             let operOffset,oper,(operParser,operPriority) = 
                 ops
                 |>Seq.map(fun (i,x)->i,x,opParser|>Seq.map(fun p->p,p.GetPriority x)|>Seq.filter(fun (_,p)->p<> -1)|>Seq.exactlyOne)
-                |>Seq.maxBy(fun (i,x,(p,pr))->pr)
+                |>Seq.groupBy(fun (i,x,(p,pr))->(pr,p))
+                |>Seq.maxBy(fun ((pr,p),inf)->pr)
+                |>snd
+                |>Seq.maxBy(fun (i,x,(p,pr))->if p.LeftRightOrder then i else -i)
             
             let left = this.ParseExpression(code,index,operOffset)
             let right = this.ParseExpression(code,index+1,length-operOffset-1)
             operParser.GetExpression(oper,left,right)
+            
         else
             expParser
             |> Seq.choose(fun p->p.GetExpression(code,index,length,this))

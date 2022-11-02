@@ -13,7 +13,7 @@ type ExpressionFunc(x:string,c:PContex,exp:IExpression) =
         c.Def x arg
         exp.Eval(c)
     override this.ToString() = 
-        sprintf "fun of %s %s" (x) (exp.ToString())
+        sprintf "of %s %s" (x) (exp.ToString())
 
 [<AbstractClass>]
 type SeparatorFunc() = 
