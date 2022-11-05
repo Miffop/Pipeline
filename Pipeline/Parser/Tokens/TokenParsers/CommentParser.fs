@@ -23,8 +23,8 @@ type WhitespaceParser() =
                 None
             else
             match code.[index]='\n',prev.[prev.Count-1] with
-            |_,x when x.Type="Oper" && x.Content="|>"->None
-            |_,x when x.Type="Oper" && x.Content="|!>"->None
+            |_,x when x.Type="Operation" && x.Content="|>"->None
+            |_,x when x.Type="Operation" && x.Content="|!>"->None
             |_,x when x.Type="Keyword" && x.Content="as"->None
-            |true,_ -> Some<|TokenContent("Oper","|!>")
+            |true,_ -> Some<|TokenContent("Operation","|!>")
             |_->None

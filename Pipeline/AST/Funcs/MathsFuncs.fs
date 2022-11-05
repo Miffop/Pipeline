@@ -71,6 +71,13 @@ and DiffPerformerFloat() =
     inherit IPerformer<float>()
     override this.Perform (a,b) = box(a-b)
     override this.ToString() = "(-)"
+type NegFunc() = 
+    inherit SeparatorFunc()
+    override this.EvalData(arg) = 
+        match arg with
+        | :? int as a->Data(-a)
+        | :? float as a->Data(-a)
+        |_->raise <| WrongTypeException("-",typeof<int>,arg.GetType())
 
 type MulFunc() = 
     inherit DataOperationFunc()

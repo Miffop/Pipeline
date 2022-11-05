@@ -1,5 +1,7 @@
 ﻿# factorial
-define Factorial of n as
-    1 to n
-    product
+#define Factorial of n as
+#    1 to n
+#   product
+2+2*2
+
 
