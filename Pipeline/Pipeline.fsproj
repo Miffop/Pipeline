@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework> 
@@ -22,11 +22,12 @@
     <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
-    <Compile Include="Parser\Expressions\Expressions.fs" />
+    <Compile Include="Parser\Expressions\Exceptions.fs" />
     <Compile Include="Parser\Expressions\ExpressionParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\SeparatorOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\BraceBreakParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\LiteralParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

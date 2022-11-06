@@ -3,11 +3,12 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield"]
+    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield";"if";"then";"else"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
             ArithmeticParser()
+            BraceParser()
             IntParser()
             FloatParser()
             StringParser()
@@ -21,9 +22,10 @@ module expressions =
     open Pipeline.Parser.Expressions.OperationParsers
 
     let expParser = 
-        CodeParser(
+        ExpressionParser(
             [
                 LiteralParser()
+                BraceBreakParser()
             ],
             [
                 MathOperationParser()
@@ -53,6 +55,7 @@ let main argv =
 
     code.Eval(PContex())
     |> printfn "%A"
+
 
     System.Console.ReadKey() |> ignore
     0

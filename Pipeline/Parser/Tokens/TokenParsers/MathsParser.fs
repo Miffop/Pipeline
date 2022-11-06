@@ -13,3 +13,17 @@ type ArithmeticParser() =
             |>(fun x->code.Substring(index,x))
             |>(fun x->TokenContent("Operation",x))
             |>Some
+
+type BraceParser() = 
+    interface ITokenParser with
+        member this.GetLength(code,index) = 
+            match code.[index] with
+            |'('|')'
+                ->1
+            |_->0
+        member this.GetToken(code,index,prev) = 
+            match code.[index] with
+            |'('->TokenContent("BraceOpen","(")
+            |')'->TokenContent("BraceClose","(")
+            |_->raise<|System.NotImplementedException()
+            |>Some

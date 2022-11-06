@@ -27,10 +27,10 @@ type OperationExpressionCurried<'T>(a:'T,p:IPerformer<'T>) =
     inherit SeparatorFunc()
     override this.EvalData(arg) = 
         match arg with
-        | :?'T as b -> Data(p.Perform(a,b))
+        | :?'T as b -> Data(p.Perform(b,a))
         | b -> raise <| TypeMatchException(Data a,Data b)
     override this.ToString() = 
-        sprintf"%s %O ..." <| p.ToString() <| a 
+        sprintf"%s %O ..." <| p.ToString() <| a
     
 
 

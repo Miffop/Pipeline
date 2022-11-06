@@ -23,8 +23,8 @@ type MathOperationParser() =
         |_->raise<|System.NotImplementedException()
     override this.UnaryRight(op,r) = 
         match op.Content with
-        |"+"->LiteralExpression(Identity())
-        |"-"->LiteralExpression(NegFunc())
+        |"+"->ApplyExpression(LiteralExpression(Identity()),r)
+        |"-"->ApplyExpression(LiteralExpression(NegFunc()),r)
         |_->raise<|OperationIsNotUnary(op.Content)
     override this.UnaryLeft(op,l) = 
         match op.Content with
@@ -32,5 +32,4 @@ type MathOperationParser() =
         |"-"->raise<|OperationIsNotUnaryLeft(op.Content)
         |_->raise<|OperationIsNotUnary(op.Content)
     override this.Binary(op,l,r) = 
-        ApplyExpression(ApplyExpression(this.Nullari(op),l),r)
-
+        ApplyExpression(ApplyExpression(this.Nullari(op),r),l)

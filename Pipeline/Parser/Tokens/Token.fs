@@ -31,6 +31,8 @@ type Token(toktype:string,content:string,margin:int,offset:int,line:int) =
     override this.GetHashCode() =
         this.Margin+this.Offset
 
+
+
 open System.Collections.Generic
 
 type ITokenParser = 

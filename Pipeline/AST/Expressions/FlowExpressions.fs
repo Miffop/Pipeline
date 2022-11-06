@@ -15,7 +15,7 @@ type ApplyExpression(FuncExp:IExpression,argExp:IExpression) =
 type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression) = 
     inherit IExpression()
     override this.Eval(c) = 
-        match argExp.Eval(c),FuncExp.Eval(c) with
+        match FuncExp.Eval(c),argExp.Eval(c) with
         |notFunc,Func(:?Identity as i) when sudoPipe->
             notFunc
         |Func(F),arg->

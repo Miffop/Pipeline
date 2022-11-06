@@ -14,7 +14,7 @@ type LiteralParser() =
             match tok.Type with
             |"String" ->Some<|LiteralExpression(tok.Content)
             |"Int" ->Some<|LiteralExpression(tok.Content |> System.Int32.Parse)
-            |"Float" ->Some<|LiteralExpression(tok.Content |> System.Double.Parse)
+            |"Float" ->Some<|LiteralExpression(tok.Content|>float)
             |_->None
         else
             None

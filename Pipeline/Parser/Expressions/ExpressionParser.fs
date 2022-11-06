@@ -14,9 +14,9 @@ type [<AbstractClass>] IOperationExpressionParser() =
     abstract GetExpression:op:Token*left:IExpression*right:IExpression->IExpression // if there is no right or left expression there will be empty expression
 
 and [<AbstractClass>] IExpressionParser() = 
-    abstract GetExpression:code:Token seq*index:int*length:int*ep:CodeParser->IExpression option
+    abstract GetExpression:code:Token seq*index:int*length:int*ep:ExpressionParser->IExpression option
 
-and CodeParser(expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
+and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
     
     
     member this.ParseExpression(code:Token seq,index:int,length:int) = 
@@ -49,10 +49,27 @@ and CodeParser(expParser:IExpressionParser seq,opParser:IOperationExpressionPars
             operParser.GetExpression(oper,left,right)
             
         else
-            expParser
-            |> Seq.choose(fun p->p.GetExpression(code,index,length,this))
-            |> Seq.exactlyOne
+            let expOption = 
+                expParser
+                |> Seq.choose(fun p->p.GetExpression(code,index,length,this))
+                |> Seq.tryExactlyOne
+            match expOption with
+            |Some(exp)->exp
+            |None->
+                //Application
+                let last = Seq.item (index+length-1) code
+                let mutable len = 1
+                if last.Type = "BraceClose" then
+                    let braceCounter = ref 1
+                    while !braceCounter>0 do
+                        match (Seq.item (index+length-len-1) code).Type with
+                        |"BraceClose"->incr braceCounter
+                        |"BraceOpen"->decr braceCounter
+                        |_->()
+                        len<-len+1
+                Pipeline.AST.Expressions.ApplyExpression(this.ParseExpression(code,index,length-len),this.ParseExpression(code,index+length-len,len))      
 
+    
 
     member this.ParseCodeBlock (code:Token seq,index:int)=
         let first = code |> Seq.item index  
