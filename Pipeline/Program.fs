@@ -53,7 +53,7 @@ let main argv =
 
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
-    code.Eval(PContex())
+    code.Eval(PContext())
     |> printfn "%A"
 
 

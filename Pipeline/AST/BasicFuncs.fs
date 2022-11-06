@@ -6,10 +6,10 @@ type Identity() =
     override this.Eval(a) = a
     override this.ToString() = "identity"
 
-type ExpressionFunc(x:string,c:PContex,exp:IExpression) = 
+type ExpressionFunc(x:string,c:PContext,exp:IExpression) = 
     inherit PFunc()
     override this.Eval(arg) = 
-        let c = PContex(Some c)
+        let c = PContext(Some c)
         c.Def x arg
         exp.Eval(c)
     override this.ToString() = 

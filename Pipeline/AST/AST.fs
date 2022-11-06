@@ -15,11 +15,11 @@ and PFunOrData =
     |Data of PData
 
 //Contex
-and PContex(parent:PContex option) = 
+and PContext(parent:PContext option) = 
     
     let defs = System.Collections.Generic.Dictionary<string,PFunOrData>()
 
-    new ()  = new PContex(None)
+    new ()  = new PContext(None)
     
     member this.Parent = parent
     member this.Defenitions = defs
@@ -36,7 +36,7 @@ and PContex(parent:PContex option) =
 
 [<AbstractClass>]
 type IExpression() = 
-    abstract Eval:contex:PContex->PFunOrData
+    abstract Eval:contex:PContext->PFunOrData
 
 
 // Seq

@@ -32,7 +32,7 @@ type LiteralExpression(lit:PFunOrData) =
 type ContextIsolationExpression(exp:IExpression) =
     inherit IExpression()
     override this.Eval(c) = 
-        exp.Eval(PContex(Some c))
+        exp.Eval(PContext(Some c))
 
 type FuncExpression(x:string,exp:IExpression) = 
     inherit IExpression()
