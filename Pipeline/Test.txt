@@ -1,4 +1,2 @@
-﻿(-5)
-(%)2
-(*)10
-(-)1
+﻿if false then 3 else if false then 4 else lazy 5
+print

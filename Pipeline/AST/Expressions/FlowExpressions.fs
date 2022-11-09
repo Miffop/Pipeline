@@ -2,6 +2,7 @@
 
 open Pipeline.AST
 
+//Appliction
 type ApplyExpression(FuncExp:IExpression,argExp:IExpression) = 
     inherit IExpression()
     override this.Eval(c) =
@@ -23,6 +24,7 @@ type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression) =
         |notFunc,arg->
             raise <| NotAFunctionException(notFunc,arg)
 
+//DataOrFunc
 type LiteralExpression(lit:PFunOrData) = 
     inherit IExpression()
     new(f) = LiteralExpression(Func f)
@@ -39,7 +41,7 @@ type FuncExpression(x:string,exp:IExpression) =
     override this.Eval(c) = 
         Func(ExpressionFunc(x,c,exp))
 
-
+//Defs
 type DefExpression(defname:string,valExp:IExpression) = 
     inherit IExpression()
     override this.Eval(c) =
@@ -49,3 +51,9 @@ type DefValueExpression(defname:string) =
     inherit  IExpression()
     override this.Eval(c) = 
         c.Find defname
+
+//Lazy
+type LazyExpression(exp:IExpression) = 
+    inherit IExpression()
+    override this.Eval(c) = 
+        Data<|PLazy(exp,c)

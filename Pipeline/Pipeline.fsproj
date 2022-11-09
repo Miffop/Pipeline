@@ -12,6 +12,8 @@
     <Compile Include="AST\BasicFuncs.fs" />
     <Compile Include="AST\Exceptions.fs" />
     <Compile Include="AST\Funcs\ForLoop.fs" />
+    <Compile Include="AST\Funcs\EvalLazy.fs" />
+    <Compile Include="AST\Funcs\IfThenElse.fs" />
     <Compile Include="AST\Funcs\PrintFunc.fs" />
     <Compile Include="AST\Funcs\RangeFuncs.fs" />
     <Compile Include="AST\Funcs\MathsFuncs.fs" />
@@ -22,11 +24,15 @@
     <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
+    <Compile Include="Parser\Simplifier\Simplifier.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\IfSimpification.fs" />
     <Compile Include="Parser\Expressions\Exceptions.fs" />
     <Compile Include="Parser\Expressions\ExpressionParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\SeparatorOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\LazyParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\DefValueParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\BraceBreakParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\LiteralParser.fs" />
     <Compile Include="Program.fs" />

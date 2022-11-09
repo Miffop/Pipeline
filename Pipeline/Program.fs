@@ -3,7 +3,7 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield";"if";"then";"else"]
+    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield";"if";"then";"else";"lazy"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
@@ -15,6 +15,13 @@ module tokens =
             CommentParser()
             WhitespaceParser()
         ])
+module simplifications = 
+    open Pipeline.Parser.Simplifier
+    open Pipeline.Parser.Simplifier.Simplifications
+    let simplifier = 
+        Simplifier([
+            IfSimplification()
+        ])
 
 module expressions = 
     open Pipeline.Parser.Expressions
@@ -24,8 +31,10 @@ module expressions =
     let expParser = 
         ExpressionParser(
             [
+                DefValueParser()
                 LiteralParser()
                 BraceBreakParser()
+                LazyParser()
             ],
             [
                 MathOperationParser()
@@ -47,15 +56,26 @@ let main argv =
     let code = System.IO.File.ReadAllText(path)
     let tokens = tokens.tokenParser.Parse(code)
     
+    (*for t in tokens do
+        printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
+    *)
+    let tokens = simplifications.simplifier.Simplify(tokens,0,tokens.Length)
+    printfn "simplified:"
     for t in tokens do
         printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
-    
 
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
-    code.Eval(PContext())
+    let c = PContext()
+    c.Def("true")(Data true)
+    c.Def("false")(Data false)
+    c.Def("if")(Func<|Pipeline.AST.Funcs.CondFunc())
+    c.Def("print")(Func<|Pipeline.AST.Funcs.PrintFunc())
+    c.Def("eval")(Func<|Pipeline.AST.Funcs.EvalLazyFunc())
+        
+    code.Eval(c)
     |> printfn "%A"
-
+    
 
     System.Console.ReadKey() |> ignore
     0

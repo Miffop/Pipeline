@@ -46,3 +46,7 @@ type PSeq = System.Collections.IEnumerable
 module PSeqExtentions =
     type System.Collections.IEnumerable with
         member this.Seq = this |> Seq.cast<obj>
+
+//Lazy
+type PLazy(exp:IExpression,c:PContext) = 
+    member this.Value = exp.Eval(c)

@@ -3,6 +3,7 @@
 type TokenContent(toktype:string,content:string) = 
     member this.Type = toktype
     member this.Content = content
+    override this.ToString() = sprintf "(%s # %s)" toktype content
 
 type Token(toktype:string,content:string,margin:int,offset:int,line:int) = 
     new (tc:TokenContent,margin,offset,line) = new Token(tc.Type,tc.Content,margin,offset,line)
@@ -13,6 +14,8 @@ type Token(toktype:string,content:string,margin:int,offset:int,line:int) =
     member this.Offset = offset //положение в строке за вычетом отступа
     member this.TokenContent = new TokenContent(toktype,content)
     
+    override this.ToString() = this.TokenContent.ToString()
+
     interface System.IComparable with
         member this.CompareTo other = 
             match other with
@@ -71,4 +74,4 @@ type TokenParser(parser:ITokenParser seq) =
                     offset<-offset+1
                     isMargin<-false
             index<-index+tokLength
-        TokList
+        TokList |> List.ofSeq
