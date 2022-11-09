@@ -9,8 +9,10 @@
   <ItemGroup>
     <Content Include="Test.txt" />
     <Compile Include="AST\AST.fs" />
+    <Compile Include="AST\PSeq.fs" />
     <Compile Include="AST\BasicFuncs.fs" />
     <Compile Include="AST\Exceptions.fs" />
+    <Compile Include="AST\Importable.fs" />
     <Compile Include="AST\Funcs\ForLoop.fs" />
     <Compile Include="AST\Funcs\EvalLazy.fs" />
     <Compile Include="AST\Funcs\IfThenElse.fs" />
@@ -25,6 +27,8 @@
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Parser\Simplifier\Simplifier.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\conversionVariation.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\mathVariation.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\IfSimpification.fs" />
     <Compile Include="Parser\Expressions\Exceptions.fs" />
     <Compile Include="Parser\Expressions\ExpressionParser.fs" />

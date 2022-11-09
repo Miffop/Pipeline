@@ -42,6 +42,9 @@ type SumFunc() =
         OperationExpressionCurried<float>(a,SumPerformerFloat())
     override this.CurryString a = 
         OperationExpressionCurried<string>(a,SumPerformerString())
+    interface PipelineNamedImportable with
+        member this.Import = Func<|SumFunc()
+        member this.Name = "прибавить"
 and SumPerformerInt() = 
     inherit IPerformer<int>()
     override this.Perform (a,b) = box(a+b)
@@ -63,6 +66,9 @@ type DiffFunc() =
         OperationExpressionCurried<float>(a,DiffPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
+    interface PipelineNamedImportable with
+        member this.Import = Func<|DiffFunc()
+        member this.Name = "вычесть"
 and DiffPerformerInt() = 
     inherit IPerformer<int>()
     override this.Perform (a,b) = box(a-b)
@@ -87,6 +93,9 @@ type MulFunc() =
         OperationExpressionCurried<float>(a,MulPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
+    interface PipelineNamedImportable with
+        member this.Import = Func<|MulFunc()
+        member this.Name = "умножить"
 and MulPerformerInt() = 
     inherit IPerformer<int>()
     override this.Perform (a,b) = box(a*b)
@@ -104,6 +113,9 @@ type DivFunc() =
         OperationExpressionCurried<float>(a,DivPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
+    interface PipelineNamedImportable with
+        member this.Import = Func<|DivFunc()
+        member this.Name = "разделить"
 and DivPerformerInt() = 
     inherit IPerformer<int>()
     override this.Perform (a,b) = box(a/b)
@@ -121,6 +133,9 @@ type ModFunc() =
         OperationExpressionCurried<float>(a,ModPerformerFloat())
     override this.CurryString a = 
         raise<|System.NotImplementedException()
+    interface PipelineNamedImportable with
+        member this.Import = Func<|ModFunc()
+        member this.Name = "остаток"
 and ModPerformerInt() = 
     inherit IPerformer<int>()
     override this.Perform (a,b) = box(if sign(a)=sign(b) then a%b else a%b+b)

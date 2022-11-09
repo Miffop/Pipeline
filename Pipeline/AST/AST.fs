@@ -31,7 +31,9 @@ and PContext(parent:PContext option) =
          |_->raise <| new System.Exception()
     member this.Def defname defenition = 
         defs.[defname]<-defenition
-
+    member this.Merge(other:PContext) =
+        for def in other.Defenitions do
+            this.Def def.Key def.Value
 //AST Nodes
 
 [<AbstractClass>]
@@ -39,13 +41,6 @@ type IExpression() =
     abstract Eval:contex:PContext->PFunOrData
 
 
-// Seq
-type PSeq = System.Collections.IEnumerable
-
-[<AutoOpen>]
-module PSeqExtentions =
-    type System.Collections.IEnumerable with
-        member this.Seq = this |> Seq.cast<obj>
 
 //Lazy
 type PLazy(exp:IExpression,c:PContext) = 

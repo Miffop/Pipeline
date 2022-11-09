@@ -3,7 +3,7 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["define";"as";"of";"to";"for";"with";"do";"yield";"if";"then";"else";"lazy"]
+    let keyWords = ["пусть";"это";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"отложить"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
@@ -18,10 +18,16 @@ module tokens =
 module simplifications = 
     open Pipeline.Parser.Simplifier
     open Pipeline.Parser.Simplifier.Simplifications
+    let preparator = 
+        Simplifier([
+            MathsVariation()
+            ConvertionVariation()
+        ])
     let simplifier = 
         Simplifier([
             IfSimplification()
         ])
+    
 
 module expressions = 
     open Pipeline.Parser.Expressions
@@ -59,6 +65,7 @@ let main argv =
     (*for t in tokens do
         printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
     *)
+    let tokens = simplifications.preparator.Simplify(tokens,0,tokens.Length)
     let tokens = simplifications.simplifier.Simplify(tokens,0,tokens.Length)
     printfn "simplified:"
     for t in tokens do
@@ -67,11 +74,10 @@ let main argv =
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
     let c = PContext()
-    c.Def("true")(Data true)
-    c.Def("false")(Data false)
-    c.Def("if")(Func<|Pipeline.AST.Funcs.CondFunc())
-    c.Def("print")(Func<|Pipeline.AST.Funcs.PrintFunc())
-    c.Def("eval")(Func<|Pipeline.AST.Funcs.EvalLazyFunc())
+    c.Def("правда")(Data true)
+    c.Def("ложь")(Data false)
+    c.Def("тождество")(Func <|Identity())
+    c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
     code.Eval(c)
     |> printfn "%A"

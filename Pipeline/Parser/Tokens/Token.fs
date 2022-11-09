@@ -7,6 +7,8 @@ type TokenContent(toktype:string,content:string) =
 
 type Token(toktype:string,content:string,margin:int,offset:int,line:int) = 
     new (tc:TokenContent,margin,offset,line) = new Token(tc.Type,tc.Content,margin,offset,line)
+    new (content:string,t:Token) = new Token(t.Type,content,t.Margin,t.Offset,t.Line)
+    new (toktype:string,content:string,t:Token) = new Token(toktype,content,t.Margin,t.Offset,t.Line)
     member this.Type = toktype
     member this.Content = content
     member this.Line = line

@@ -11,4 +11,7 @@ type PrintFunc() =
         printfn "%s" <| f.ToString()
         Func <| Identity()
     override this.ToString() = 
-        sprintf "print"
+        sprintf "вывести"
+    interface PipelineNamedImportable with
+        member this.Import = Func<|PrintFunc()
+        member this.Name = "вывести"

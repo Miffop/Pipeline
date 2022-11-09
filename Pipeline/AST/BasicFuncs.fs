@@ -4,8 +4,7 @@
 type Identity() = 
     inherit PFunc()
     override this.Eval(a) = a
-    override this.ToString() = "identity"
-
+    override this.ToString() = "тождество"
 type ExpressionFunc(x:string,c:PContext,exp:IExpression) = 
     inherit PFunc()
     override this.Eval(arg) = 
@@ -13,7 +12,7 @@ type ExpressionFunc(x:string,c:PContext,exp:IExpression) =
         c.Def x arg
         exp.Eval(c)
     override this.ToString() = 
-        sprintf "of %s %s" (x) (exp.ToString())
+        sprintf "от %s %s" (x) (exp.ToString())
 
 [<AbstractClass>]
 type SeparatorFunc() = 

@@ -15,7 +15,7 @@ and RangeFuncCurried(a:int) =
     inherit SeparatorFunc()
     override this.EvalData(arg) = 
         match arg with
-        | :?int as b -> Data(seq{a..b})
+        | :?int as b -> Data(seq{a..b} |> Seq.map(fun x->Data x))
         |_->raise <| WrongTypeException("Range expression",typeof<int>,arg.GetType())
     override this.ToString() = 
         sprintf "%i to ..." a
@@ -42,7 +42,7 @@ and RangeFuncWithDeltaCurriedCurried(a:int,b:int) =
     inherit SeparatorFunc()
     override this.EvalData(arg) = 
         match arg with
-        | :?int as d -> Data(seq{a..d..b})
+        | :?int as d -> Data(seq{a..d..b} |> Seq.map(fun x->Data x))
         |_->raise <| WrongTypeException("Range expression with delta",typeof<int>,arg.GetType())
     override this.ToString() = 
         sprintf "%i to %i with step of ..." a b
