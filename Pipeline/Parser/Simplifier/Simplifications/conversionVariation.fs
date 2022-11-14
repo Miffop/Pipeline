@@ -11,19 +11,19 @@ type ConvertionVariation() =
             match code[index+1].Content with
             //целое
             |"целое" when current.Content ="в" || current.Content = "как" -> 
-                Some {NewCode = Token("Word","целое",current)::[];Length = 2}
+                Some {NewCode = Token("Word","целое",current)::[];Length = 2;Resimplify = true}
             |"целому" when current.Content ="к" -> 
-                Some {NewCode = Token("Word","целое",current)::[];Length = 2}
+                Some {NewCode = Token("Word","целое",current)::[];Length = 2;Resimplify = true}
             //дробь
             |"дробь" when current.Content ="в" || current.Content = "как" -> 
-                Some {NewCode = Token("Word","дробь",current)::[];Length = 2}
+                Some {NewCode = Token("Word","дробь",current)::[];Length = 2;Resimplify = true}
             |"дроби" when current.Content ="к" -> 
-                Some {NewCode = Token("Word","дробь",current)::[];Length = 2}
+                Some {NewCode = Token("Word","дробь",current)::[];Length = 2;Resimplify = true}
             //строка
             |"строку" when current.Content ="в" || current.Content = "как" -> 
-                Some {NewCode = Token("Word","строка",current)::[];Length = 2}
+                Some {NewCode = Token("Word","строка",current)::[];Length = 2;Resimplify = true}
             |"строке" when current.Content ="к" -> 
-                Some {NewCode = Token("Word","строка",current)::[];Length = 2}
+                Some {NewCode = Token("Word","строка",current)::[];Length = 2;Resimplify = true}
 
             |_->None 
         else

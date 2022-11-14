@@ -3,7 +3,7 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["пусть";"это";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"отложить"]
+    let keyWords = ["пусть";"равно";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"ленивое"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
@@ -26,6 +26,7 @@ module simplifications =
     let simplifier = 
         Simplifier([
             IfSimplification()
+            DefineSimplification()
         ])
     
 
@@ -41,6 +42,7 @@ module expressions =
                 LiteralParser()
                 BraceBreakParser()
                 LazyParser()
+                DefAndFuncParser()
             ],
             [
                 MathOperationParser()
@@ -59,7 +61,7 @@ let main argv =
     
     
     let path = "./../../../Test.txt"
-    let code = System.IO.File.ReadAllText(path)
+    let code = System.IO.File.ReadAllText(path)+" "
     let tokens = tokens.tokenParser.Parse(code)
     
     (*for t in tokens do
@@ -79,8 +81,12 @@ let main argv =
     c.Def("тождество")(Func <|Identity())
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
-    code.Eval(c)
-    |> printfn "%A"
+    let result = code.Eval(c)
+    match result with
+    |Func(f) -> 
+        printf "\n\nпрограмма завершилась вернув функцию: %O\n" f
+    |Data(d) ->
+        printf "\n\nпрограмма завершилась вернув: %O\n" d
     
 
     System.Console.ReadKey() |> ignore

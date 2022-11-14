@@ -10,11 +10,11 @@ type IfSimplification() =
             None
         else
             
-            let findLen offset word=
+            let findLen offset (word:string seq)=
                 let mutable braceCounter = 0
                 let mutable nestedIfCounter = 0
                 let mutable len = 0
-                while not(code.[index+len+offset].Type = "Keyword" && code.[index+len+offset].Content = word && braceCounter = 0 && nestedIfCounter = 0) do
+                while not(code.[index+len+offset].Type = "Keyword" && Seq.exists((=)code.[index+len+offset].Content) word && braceCounter = 0 && nestedIfCounter = 0) do
                     match code.[index+len+offset].Type,code.[index+len+offset].Content with
                     |"Keyword","если"->
                         nestedIfCounter<-nestedIfCounter+1
@@ -29,9 +29,9 @@ type IfSimplification() =
                 len
             
             let offset1 = 1
-            let condLen = findLen offset1 "то"
+            let condLen = findLen offset1 ["то";"вернуть"]
             let offset2 = 1 + condLen + 1
-            let thenLen = findLen offset2 "иначе"
+            let thenLen = findLen offset2 ["иначе"]
             let offset3 = 1 + condLen + 1 + thenLen + 1
             let elseLen = 
                 let len = 
@@ -53,4 +53,4 @@ type IfSimplification() =
             let thenCode = code.[index+offset2..index+offset2+thenLen-1] |> encloseLazy
             let elseCode = code.[index+offset3..index+offset3+elseLen-1] |> encloseLazy
 
-            Some({NewCode = [Token("Word","если",0,0,0)]@condCode@thenCode@elseCode;Length = totalLen})
+            Some({NewCode = [Token("Word","если",0,0,0)]@condCode@thenCode@elseCode;Length = totalLen;Resimplify = true})

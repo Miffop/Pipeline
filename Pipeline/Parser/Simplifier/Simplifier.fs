@@ -2,7 +2,7 @@
 
 open Pipeline.Parser.Tokens
 
-type CodeReplacement = {NewCode:Token list;Length:int}
+type CodeReplacement = {NewCode:Token list;Length:int;Resimplify:bool}
 
 type [<AbstractClass>] ISimplification() = 
     abstract TrySimplify:code:Token list*index:int*length:int*sp:Simplifier->CodeReplacement option
@@ -21,8 +21,10 @@ and Simplifier(simplifications:ISimplification seq) =
                 |>Seq.tryExactlyOne
             match replacementOption with
             |Some(replacement) ->
-                length<-length+replacement.NewCode.Length-replacement.Length
-                code<-code.[0..index+i-1]@this.Simplify(replacement.NewCode)@code.[index+i+replacement.Length..]
+                let rep = if replacement.Resimplify then this.Simplify(replacement.NewCode) else replacement.NewCode
+                length<-length+rep.Length-replacement.Length
+                code<-code.[0..index+i-1]@rep@code.[index+i+replacement.Length..]
+                i<-i+1
             |None->
                 i<-i+1
         code

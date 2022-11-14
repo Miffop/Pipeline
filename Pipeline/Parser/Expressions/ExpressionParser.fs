@@ -14,12 +14,12 @@ type [<AbstractClass>] IOperationExpressionParser() =
     abstract GetExpression:op:Token*left:IExpression*right:IExpression->IExpression // if there is no right or left expression there will be empty expression
 
 and [<AbstractClass>] IExpressionParser() = 
-    abstract GetExpression:code:Token seq*index:int*length:int*ep:ExpressionParser->IExpression option
+    abstract GetExpression:code:Token list*index:int*length:int*ep:ExpressionParser->IExpression option
 
 and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
     
     
-    member this.ParseExpression(code:Token seq,index:int,length:int) = 
+    member this.ParseExpression(code:Token list,index:int,length:int) = 
         if length = 0 then 
             EmptyExpression() :> IExpression
         else
@@ -71,7 +71,7 @@ and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressi
 
     
 
-    member this.ParseCodeBlock (code:Token seq,index:int)=
+    member this.ParseCodeBlock (code:Token list,index:int)=
         let first = code |> Seq.item index  
         let codeBlockLength = code |> Seq.indexed |> Seq.filter(fun (i,x)->i>=index) |> Seq.map(fun (i,x)->x) |> Seq.takeWhile(fun x->x>=first) |> Seq.length
         this.ParseExpression(code,index,codeBlockLength)
