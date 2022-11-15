@@ -75,7 +75,7 @@ type TokenParser(parser:ITokenParser seq) =
                 |' ' when isMargin->
                     margin<-margin+1
                 |'\t'->
-                    raise<|System.Exception("tabs are not allowed")
+                    failwith "табы запрешенны"
                 |_ ->
                     offset<-offset+1
                     isMargin<-false

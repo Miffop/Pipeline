@@ -29,7 +29,7 @@ and PContext(parent:PContext option) =
          |(true,result),_ when (result|>List.last|>snd)<=location
             ->result |> List.find(fun x->(snd x)<=location) |> fst
          |(false,_),Some(parent)->parent.Find(defname)(location)
-         |_->raise <| new System.Exception()
+         |_->failwithf "определение для %s не найдено" defname
     member this.Def defname location defenition = 
         if defs.ContainsKey(defname) then
             defs.[defname]<-(defenition,location)::defs.[defname]
