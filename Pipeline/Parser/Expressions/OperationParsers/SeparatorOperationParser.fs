@@ -7,19 +7,19 @@ open Pipeline.Parser.Expressions
 [<AbstractClass>]
 type SeparatorOperationParser() = 
     inherit IOperationExpressionParser()
-    override this.GetExpression(op,left,right)  =
+    override this.GetExpression(op,left,right,strImage)  =
         match left,right with
-        | :? EmptyExpression as _, :? EmptyExpression as _ -> this.Nullari(op)
-        | l, :? EmptyExpression as _ -> this.UnaryLeft(op,l)
-        | :? EmptyExpression as _,r -> this.UnaryRight(op,r)
-        | l,r -> this.Binary(op,l,r)
-    abstract Nullari:op:Token->IExpression
-    abstract UnaryLeft:op:Token*left:IExpression->IExpression
-    abstract UnaryRight:op:Token*right:IExpression->IExpression
-    abstract Binary:op:Token*left:IExpression*right:IExpression->IExpression
+        | :? EmptyExpression as _, :? EmptyExpression as _ -> this.Nullari(op,strImage)
+        | l, :? EmptyExpression as _ -> this.UnaryLeft(op,l,strImage)
+        | :? EmptyExpression as _,r -> this.UnaryRight(op,r,strImage)
+        | l,r -> this.Binary(op,l,r,strImage)
+    abstract Nullari:op:Token*strImage:StringImage->IExpression
+    abstract UnaryLeft:op:Token*left:IExpression*strImage:StringImage->IExpression
+    abstract UnaryRight:op:Token*right:IExpression*strImage:StringImage->IExpression
+    abstract Binary:op:Token*left:IExpression*right:IExpression*strImage:StringImage->IExpression
 
     
-    default this.Nullari (op) = raise<|System.NotImplementedException()
-    default this.UnaryLeft (op,l) = raise<|System.NotImplementedException()
-    default this.UnaryRight (op,r) = raise<|System.NotImplementedException()
-    default this.Binary (op,l,r) = raise<|System.NotImplementedException()
+    default this.Nullari (op,sI) = raise<|System.NotImplementedException()
+    default this.UnaryLeft (op,l,sI) = raise<|System.NotImplementedException()
+    default this.UnaryRight (op,r,sI) = raise<|System.NotImplementedException()
+    default this.Binary (op,l,r,sI) = raise<|System.NotImplementedException()

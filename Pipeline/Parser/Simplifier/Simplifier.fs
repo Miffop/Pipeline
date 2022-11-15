@@ -24,7 +24,10 @@ and Simplifier(simplifications:ISimplification seq) =
                 let rep = if replacement.Resimplify then this.Simplify(replacement.NewCode) else replacement.NewCode
                 length<-length+rep.Length-replacement.Length
                 code<-code.[0..index+i-1]@rep@code.[index+i+replacement.Length..]
-                i<-i+1
+                if replacement.Resimplify then
+                    i<-i+1
+                else
+                    i<-i+rep.Length
             |None->
                 i<-i+1
         code

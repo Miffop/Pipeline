@@ -8,8 +8,8 @@ type PipelineNamedImportable =
 
 
 open System.Reflection
-type PipelineReflectionImporter(importName:string) = 
-    inherit IExpression()
+type PipelineReflectionImporter(importName:string,strImage:StringImage option) = 
+    inherit IExpression(strImage)
     static member ImportAsm(asm:Assembly) = 
         let c = PContext()
         seq{

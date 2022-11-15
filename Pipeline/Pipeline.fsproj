@@ -27,6 +27,7 @@
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Parser\Simplifier\Simplifier.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\LambdaSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\DefineSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\conversionVariation.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\mathVariation.fs" />
