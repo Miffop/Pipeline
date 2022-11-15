@@ -77,9 +77,9 @@ let main argv =
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
     let c = PContext()
-    c.Def("правда")(Data true)
-    c.Def("ложь")(Data false)
-    c.Def("тождество")(Func <|Identity())
+    c.Def("правда")(-1)(Data true)
+    c.Def("ложь")(-1)(Data false)
+    c.Def("тождество")(-1)(Func <|Identity())
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
     let result = code.Eval(c)

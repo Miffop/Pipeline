@@ -6,11 +6,11 @@ open Pipeline.AST
 type ApplyExpression(FuncExp:IExpression,argExp:IExpression,strImage:StringImage option) = 
     inherit IExpression(strImage)
     override this.Eval(c) =
-        let arg = argExp.Eval(c)
-        match FuncExp.Eval(c) with
-        |Func(F)->
+        let func = FuncExp.Eval(c)
+        match func,argExp.Eval(c) with
+        |Func(F),arg->
             F.Eval(arg)
-        |x->
+        |x,arg->
             raise <| NotAFunctionException(x,arg)
 
 type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression,strImage:StringImage option) = 
@@ -41,18 +41,18 @@ type ContextIsolationExpression(exp:IExpression) =
 type FuncExpression(x:string,exp:IExpression,strImage:StringImage option) = 
     inherit IExpression(strImage)
     override this.Eval(c) = 
-        Func(ExpressionFunc(x,c,exp))
+        Func(ExpressionFunc(x,c,this.Location,exp))
 
 //Defs
 type DefExpression(defname:string,valExp:IExpression,strImage:StringImage option) = 
     inherit IExpression(strImage)
     override this.Eval(c) =
-        c.Def defname (valExp.Eval c)
+        c.Def defname this.Location (valExp.Eval c)
         Func(Identity())
 type DefValueExpression(defname:string,strImage:StringImage option) = 
     inherit  IExpression(strImage)
     override this.Eval(c) = 
-        c.Find defname
+        c.Find defname this.Location
 
 //Lazy
 type LazyExpression(exp:IExpression,strImage:StringImage option) = 

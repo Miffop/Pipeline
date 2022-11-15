@@ -20,7 +20,7 @@ type PipelineReflectionImporter(importName:string,strImage:StringImage option) =
         }
         |>Seq.map(fun t->System.Activator.CreateInstance(t):?>PipelineImportable)
         |>Seq.map(fun t->t,match t with | :? PipelineNamedImportable as t -> t.Name |_->t.GetType().Name)
-        |>Seq.iter(fun (t,name)->c.Def name t.Import)
+        |>Seq.iter(fun (t,name)->c.Def name -1 t.Import)
         c
     static member ImportAsm(asmPath:string) = 
         PipelineReflectionImporter.ImportAsm(Assembly.LoadFile(asmPath))
