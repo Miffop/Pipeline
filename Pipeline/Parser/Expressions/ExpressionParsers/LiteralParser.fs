@@ -11,10 +11,11 @@ type LiteralParser() =
     override this.GetExpression(code,index,length,ep) = 
         if length = 1 then
             let tok = (Seq.item index code)
+            let strImage =Some<|ep.CreateStringImage(code,index,length)
             match tok.Type with
-            |"String" ->Some<|LiteralExpression(tok.Content)
-            |"Int" ->Some<|LiteralExpression(tok.Content |> System.Int32.Parse)
-            |"Float" ->Some<|LiteralExpression(tok.Content|>float)
+            |"String" ->Some<|LiteralExpression(tok.Content,strImage)
+            |"Int" ->Some<|LiteralExpression(tok.Content |> System.Int32.Parse,strImage)
+            |"Float" ->Some<|LiteralExpression(tok.Content|>float,strImage)
             |_->None
         else
             None

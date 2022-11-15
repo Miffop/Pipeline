@@ -36,9 +36,18 @@ and PContext(parent:PContext option) =
             this.Def def.Key def.Value
 //AST Nodes
 
+
+type StringImage = 
+    {CodeRef:string ref;SI:int;EI:int}
+    override this.ToString() = (!this.CodeRef).[this.SI..this.EI]
 [<AbstractClass>]
-type IExpression() = 
+type IExpression(s:StringImage option) = 
     abstract Eval:contex:PContext->PFunOrData
+    override this.ToString() = 
+        match s with
+        |Some(s)->s.ToString()
+        |None->sprintf"%s:Отсутствует строковое представление"<|this.GetType().ToString()
+        
 
 
 

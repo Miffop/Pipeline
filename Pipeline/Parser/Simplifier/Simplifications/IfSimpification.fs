@@ -47,10 +47,12 @@ type IfSimplification() =
                     len
 
             let totalLen = 1 + condLen + 1 + thenLen + 1 + elseLen
-            let encloseLazy c=(Token("BraceOpen","(",0,0,0)::Token("Keyword","lazyBlock",0,0,0)::Token("BraceOpen","(",0,0,0)::[])@c@(Token("BraceClose","(",0,0,0)::Token("BraceClose","(",0,0,0)::[]) 
-            let enclose c=(Token("BraceOpen","(",0,0,0)::[])@c@(Token("BraceClose","(",0,0,0)::[]) 
+            let encloseLazy c=(Token("BraceOpen","(",List.head c)::Token("Keyword","lazyBlock",List.head c)::Token("BraceOpen","(",List.head c)::sp.Simplify(c))@(Token("BraceClose","(",List.last c)::Token("BraceClose","(",List.last c)::[]) 
+            
+            let enclose (c:Token list)=(Token("BraceOpen","(",List.head c)::sp.Simplify(c))@(Token("BraceClose","(",List.last c)::[]) 
+
             let condCode = code.[index+offset1..index+offset1+condLen-1] |> enclose
             let thenCode = code.[index+offset2..index+offset2+thenLen-1] |> encloseLazy
             let elseCode = code.[index+offset3..index+offset3+elseLen-1] |> encloseLazy
 
-            Some({NewCode = [Token("Word","если",0,0,0)]@condCode@thenCode@elseCode;Length = totalLen;Resimplify = true})
+            Some({NewCode = (Token("Word","если",code.[index])::condCode)@thenCode@elseCode;Length = totalLen;Resimplify = false})
