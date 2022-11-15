@@ -13,23 +13,23 @@ type MathOperationParser() =
         |"+"|"-"->2
         |"*"|"/"|"%"->1
         |_->(-1)
-    override this.Nullari(op,strImage) = 
+    override this.Nullari(op) = 
         match op.Content with
-        |"+"->LiteralExpression(SumFunc(),Some strImage)
-        |"-"->LiteralExpression(DiffFunc(),Some strImage)
-        |"*"->LiteralExpression(MulFunc(),Some strImage)
-        |"/"->LiteralExpression(DivFunc(),Some strImage)
-        |"%"->LiteralExpression(ModFunc(),Some strImage)
+        |"+"->LiteralExpression(SumFunc())
+        |"-"->LiteralExpression(DiffFunc())
+        |"*"->LiteralExpression(MulFunc())
+        |"/"->LiteralExpression(DivFunc())
+        |"%"->LiteralExpression(ModFunc())
         |_->raise<|System.NotImplementedException()
-    override this.UnaryRight(op,r,strImage) = 
+    override this.UnaryRight(op,r) = 
         match op.Content with
-        |"+"->ApplyExpression(LiteralExpression(Identity(),Some strImage),r,Some strImage)
-        |"-"->ApplyExpression(LiteralExpression(NegFunc(),Some strImage),r,Some strImage)
+        |"+"->ApplyExpression(LiteralExpression(Identity()),r)
+        |"-"->ApplyExpression(LiteralExpression(NegFunc()),r)
         |_->raise<|OperationIsNotUnary(op.Content)
-    override this.UnaryLeft(op,l,strImage) = 
+    override this.UnaryLeft(op,l) = 
         match op.Content with
         |"+"
         |"-"->raise<|OperationIsNotUnaryLeft(op.Content)
         |_->raise<|OperationIsNotUnary(op.Content)
-    override this.Binary(op,l,r,strImage) = 
-        ApplyExpression(ApplyExpression(this.Nullari(op,strImage),r,Some strImage),l,Some strImage)
+    override this.Binary(op,l,r) = 
+        ApplyExpression(ApplyExpression(this.Nullari(op),r),l)

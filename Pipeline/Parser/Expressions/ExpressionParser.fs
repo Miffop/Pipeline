@@ -4,14 +4,14 @@ open Pipeline.AST
 open Pipeline.Parser.Tokens
 
 type EmptyExpression() = 
-    inherit IExpression(None)
+    inherit IExpression()
     override this.Eval(c) = Func(Identity())
 
 type [<AbstractClass>] IOperationExpressionParser() = 
     abstract GetPriority:op:Token->int
     abstract GetOrderDirection:op:Token->bool //true - leftToRight, false -  rightToLeft
     default this.GetOrderDirection(op) = true
-    abstract GetExpression:op:Token*left:IExpression*right:IExpression*strImage:StringImage->IExpression // if there is no right or left expression there will be empty expression
+    abstract GetExpression:op:Token*left:IExpression*right:IExpression->IExpression // if there is no right or left expression there will be empty expression
 
 and [<AbstractClass>] IExpressionParser() = 
     abstract GetExpression:code:Token list*index:int*length:int*ep:ExpressionParser->IExpression option
@@ -46,7 +46,7 @@ and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressi
             
             let left = this.ParseExpression(code,index,operOffset)
             let right = this.ParseExpression(code,index+operOffset+1,length-operOffset-1)
-            operParser.GetExpression(oper,left,right,this.CreateStringImage(code,index,length))
+            operParser.GetExpression(oper,left,right)
             
         else
             let expOption = 
@@ -67,16 +67,9 @@ and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressi
                         |"BraceOpen"->decr braceCounter
                         |_->()
                         len<-len+1
-                let strImage = 
-                    this.CreateStringImage(code,index,length)
-                Pipeline.AST.Expressions.ApplyExpression(this.ParseExpression(code,index,length-len),this.ParseExpression(code,index+length-len,len),Some<|strImage)      
-    member this.CreateStringImage (ST:Token,ET:Token)=   
-        if ST.Location.CodeRef <> ET.Location.CodeRef then raise<|System.NotImplementedException()
-        {CodeRef = ST.Location.CodeRef;StringImage.SI = ST.Location.SI;StringImage.EI = ET.Location.EI}
-    member this.CreateStringImage (code:Token list,index:int,length:int) = 
-        let ST = code.[index]
-        let ET = code.[index+length-1]
-        this.CreateStringImage(ST,ET)
+                Pipeline.AST.Expressions.ApplyExpression(this.ParseExpression(code,index,length-len),this.ParseExpression(code,index+length-len,len))      
+
+    
 
     member this.ParseCodeBlock (code:Token list,index:int)=
         let first = code |> Seq.item index  

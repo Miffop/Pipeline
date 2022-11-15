@@ -3,8 +3,8 @@
 open Pipeline.AST
 
 //Appliction
-type ApplyExpression(FuncExp:IExpression,argExp:IExpression,strImage:StringImage option) = 
-    inherit IExpression(strImage)
+type ApplyExpression(FuncExp:IExpression,argExp:IExpression) = 
+    inherit IExpression()
     override this.Eval(c) =
         let arg = argExp.Eval(c)
         match FuncExp.Eval(c) with
@@ -13,8 +13,8 @@ type ApplyExpression(FuncExp:IExpression,argExp:IExpression,strImage:StringImage
         |x->
             raise <| NotAFunctionException(x,arg)
 
-type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression,strImage:StringImage option) = 
-    inherit IExpression(strImage)
+type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression) = 
+    inherit IExpression()
     override this.Eval(c) = 
         let arg = argExp.Eval(c)
         match FuncExp.Eval(c),arg with
@@ -26,36 +26,35 @@ type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression,strImag
             raise <| NotAFunctionException(notFunc,arg)
 
 //DataOrFunc
-type LiteralExpression(lit:PFunOrData,strImage:StringImage option) = 
-    inherit IExpression(strImage)
-    new(f:PFunc,strImage:StringImage option) = LiteralExpression(Func f,strImage)
-    new(d:PData,strImage:StringImage option) = LiteralExpression(Data d,strImage)
+type LiteralExpression(lit:PFunOrData) = 
+    inherit IExpression()
+    new(f) = LiteralExpression(Func f)
+    new(d) = LiteralExpression(Data d)
     override this.Eval(c) = 
         lit
 type ContextIsolationExpression(exp:IExpression) =
-    inherit IExpression(None)
+    inherit IExpression()
     override this.Eval(c) = 
         exp.Eval(PContext(Some c))
-    override this.ToString() = exp.ToString()
-    
-type FuncExpression(x:string,exp:IExpression,strImage:StringImage option) = 
-    inherit IExpression(strImage)
+
+type FuncExpression(x:string,exp:IExpression) = 
+    inherit IExpression()
     override this.Eval(c) = 
         Func(ExpressionFunc(x,c,exp))
 
 //Defs
-type DefExpression(defname:string,valExp:IExpression,strImage:StringImage option) = 
-    inherit IExpression(strImage)
+type DefExpression(defname:string,valExp:IExpression) = 
+    inherit IExpression()
     override this.Eval(c) =
         c.Def defname (valExp.Eval c)
         Func(Identity())
-type DefValueExpression(defname:string,strImage:StringImage option) = 
-    inherit  IExpression(strImage)
+type DefValueExpression(defname:string) = 
+    inherit  IExpression()
     override this.Eval(c) = 
         c.Find defname
 
 //Lazy
-type LazyExpression(exp:IExpression,strImage:StringImage option) = 
-    inherit IExpression(strImage)
+type LazyExpression(exp:IExpression) = 
+    inherit IExpression()
     override this.Eval(c) = 
         Data<|PLazy(exp,c)

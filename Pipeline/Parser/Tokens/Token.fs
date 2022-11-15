@@ -5,19 +5,16 @@ type TokenContent(toktype:string,content:string) =
     member this.Content = content
     override this.ToString() = sprintf "(%s # %s)" toktype content
 
-type codeLocation = {CodeRef:string ref;SI:int;EI:int}
-
-type Token(toktype:string,content:string,margin:int,offset:int,line:int,loc:codeLocation) = 
-    new (tc:TokenContent,margin,offset,line,loc) = new Token(tc.Type,tc.Content,margin,offset,line,loc)
-    new (content:string,t:Token) = new Token(t.Type,content,t.Margin,t.Offset,t.Line,t.Location)
-    new (toktype:string,content:string,t:Token) = new Token(toktype,content,t.Margin,t.Offset,t.Line,t.Location)
+type Token(toktype:string,content:string,margin:int,offset:int,line:int) = 
+    new (tc:TokenContent,margin,offset,line) = new Token(tc.Type,tc.Content,margin,offset,line)
+    new (content:string,t:Token) = new Token(t.Type,content,t.Margin,t.Offset,t.Line)
+    new (toktype:string,content:string,t:Token) = new Token(toktype,content,t.Margin,t.Offset,t.Line)
     member this.Type = toktype
     member this.Content = content
     member this.Line = line
     member this.Margin = margin //отступ всей строки в которой находиться токен
     member this.Offset = offset //положение в строке за вычетом отступа
     member this.TokenContent = new TokenContent(toktype,content)
-    member this.Location = loc
     
     override this.ToString() = this.TokenContent.ToString()
 
@@ -48,7 +45,6 @@ type ITokenParser =
     abstract GetToken:code:string*index:int*prev:List<Token>->TokenContent option
 type TokenParser(parser:ITokenParser seq) = 
     member this.Parse (code:string) =
-        let codeRef = ref code
         let mutable index = 0
         let mutable line = 1
         let mutable margin = 0
@@ -63,7 +59,7 @@ type TokenParser(parser:ITokenParser seq) =
                 |> (fun p->p.GetToken(code,index,TokList),p.GetLength(code,index))
             match tokOption with
             |Some(tok)->
-                TokList.Add(Token(tok,margin,offset,line,{CodeRef = codeRef;SI = index;EI = index+tokLength-1}))
+                TokList.Add(Token(tok,margin,offset,line))
             |None->()
             for c in code.Substring(index,tokLength) do                
                 match c with

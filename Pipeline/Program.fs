@@ -27,7 +27,6 @@ module simplifications =
         Simplifier([
             IfSimplification()
             DefineSimplification()
-            LambdaSimplification()
         ])
     
 

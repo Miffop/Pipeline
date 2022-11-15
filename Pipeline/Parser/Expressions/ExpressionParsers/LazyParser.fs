@@ -11,10 +11,9 @@ type LazyParser() =
     override this.GetExpression(code,index,length,ep) = 
         let first = Seq.item index code
         if first.Type = "Keyword" then
-            let strImage =Some<|ep.CreateStringImage(code,index,length)
             match first.Content with
-            |"ленивое" -> Some<|LazyExpression(ep.ParseExpression(code,index+1,length-1),strImage)
-            |"lazyBlock" -> Some<|LazyExpression(ContextIsolationExpression(ep.ParseExpression(code,index+1,length-1)),strImage) 
+            |"ленивое" -> Some<|LazyExpression(ep.ParseExpression(code,index+1,length-1))
+            |"lazyBlock" -> Some<|LazyExpression(ContextIsolationExpression(ep.ParseExpression(code,index+1,length-1))) 
             |_->None
         else
             None

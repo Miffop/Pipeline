@@ -11,9 +11,8 @@ type DefValueParser() =
     override this.GetExpression(code,index,length,ep) = 
         if length = 1 then
             let tok = (Seq.item index code)
-            let strImage =Some<|ep.CreateStringImage(code,index,length)
             match tok.Type with
-            |"Word" ->Some<|DefValueExpression(tok.Content,strImage)
+            |"Word" ->Some<|DefValueExpression(tok.Content)
             |_->None
         else
             None
