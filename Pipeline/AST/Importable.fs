@@ -11,7 +11,7 @@ open System.Reflection
 type PipelineReflectionImporter(importName:string,strImage:StringImage option) = 
     inherit IExpression(strImage)
     static member ImportAsm(asm:Assembly) = 
-        let c = PContext()
+        let c = PContext(IdentityMonad())
         seq{
             for t in asm.GetTypes() do
                 let i = t.FindInterfaces((fun x c->x=typedefof<PipelineImportable>),null)

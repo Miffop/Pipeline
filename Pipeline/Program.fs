@@ -3,7 +3,7 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["пусть";"равно";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"ленивое"]
+    let keyWords = ["пусть";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"ленивое";"маркер"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
@@ -14,6 +14,7 @@ module tokens =
             StringParser()
             CommentParser()
             WhitespaceParser()
+            ComparisionParser()
         ])
 module simplifications = 
     open Pipeline.Parser.Simplifier
@@ -28,6 +29,7 @@ module simplifications =
             IfSimplification()
             DefineSimplification()
             LambdaSimplification()
+            MarkerSimplification()
         ])
     
 
@@ -44,10 +46,12 @@ module expressions =
                 BraceBreakParser()
                 LazyParser()
                 DefAndFuncParser()
+                MarkerParser()
             ],
             [
                 MathOperationParser()
                 PipeOperationParser()
+                MarkerOperationParser()
             ]
         )
 
@@ -62,7 +66,7 @@ let main argv =
     
     
     let path = "./../../../Test.txt"
-    let code = System.IO.File.ReadAllText(path)+" "
+    let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
     (*for t in tokens do
@@ -76,7 +80,7 @@ let main argv =
 
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
-    let c = PContext()
+    let c = PContext(IdentityMonad())
     c.Def("правда")(-1)(Data true)
     c.Def("ложь")(-1)(Data false)
     c.Def("тождество")(-1)(Func <|Identity())

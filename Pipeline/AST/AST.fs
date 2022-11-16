@@ -15,14 +15,15 @@ and PFunOrData =
     |Data of PData
 
 //Contex
-and PContext(parent:PContext option) = 
+and PContext(parent:PContext option,monad:PMonad) = 
     
     let defs = System.Collections.Generic.Dictionary<string,(PFunOrData*int) list>()
 
-    new ()  = new PContext(None)
+    new (monad)  = new PContext(None,monad)
     
     member this.Parent = parent
     member this.Defenitions = defs
+    member this.Monad = monad
 
     member this.Find (defname:string)(location:int) = 
          match defs.TryGetValue(defname),parent with
@@ -38,6 +39,10 @@ and PContext(parent:PContext option) =
     member this.Merge(other:PContext) =
         for def in other.Defenitions do
             this.Def def.Key -1 (def.Value.Head |> fst)
+and [<AbstractClass>] PMonad() =
+    abstract Return:PFunc
+    abstract Bind:PFunOrData*PFunc->PFunOrData
+    
 //AST Nodes
 
 

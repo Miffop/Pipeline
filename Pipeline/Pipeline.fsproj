@@ -9,9 +9,11 @@
   <ItemGroup>
     <Content Include="Test.txt" />
     <Compile Include="AST\AST.fs" />
-    <Compile Include="AST\PSeq.fs" />
-    <Compile Include="AST\BasicFuncs.fs" />
     <Compile Include="AST\Exceptions.fs" />
+    <Compile Include="AST\PSeq.fs" />
+    <Compile Include="AST\Markers.fs" />
+    <Compile Include="AST\BasicFuncs.fs" />
+    <Compile Include="AST\BasicMonads.fs" />
     <Compile Include="AST\Importable.fs" />
     <Compile Include="AST\Funcs\ForLoop.fs" />
     <Compile Include="AST\Funcs\EvalLazy.fs" />
@@ -20,13 +22,16 @@
     <Compile Include="AST\Funcs\RangeFuncs.fs" />
     <Compile Include="AST\Funcs\MathsFuncs.fs" />
     <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
+    <Compile Include="AST\Expressions\TypeExpressions.fs" />
     <Compile Include="AST\Expressions\FlowExpressions.fs" />
     <Compile Include="Parser\Tokens\Token.fs" />
+    <Compile Include="Parser\Tokens\TokenParsers\ComparisionParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\CommentParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Parser\Simplifier\Simplifier.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\MarkerSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\LambdaSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\DefineSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\conversionVariation.fs" />
@@ -37,6 +42,8 @@
     <Compile Include="Parser\Expressions\OperationParsers\SeparatorOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
+    <Compile Include="Parser\Expressions\OperationParsers\MarkerCheckOperationParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\MarkerParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\LazyParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\DefValueParser.fs" />

@@ -5,10 +5,14 @@ type Identity() =
     inherit PFunc()
     override this.Eval(a) = a
     override this.ToString() = "тождество"
+    
+    override this.GetHashCode() = "тождество".GetHashCode()
+    override this.Equals(o) =o :? Identity 
+        
 type ExpressionFunc(x:string,c:PContext,loc:int,exp:IExpression) = 
     inherit PFunc()
     override this.Eval(arg) = 
-        let c = PContext(Some c)
+        let c = PContext(Some c,c.Monad)
         c.Def x loc arg
         exp.Eval(c)
     override this.ToString() = 

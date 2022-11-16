@@ -18,10 +18,10 @@ type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression,strImag
     override this.Eval(c) = 
         let arg = argExp.Eval(c)
         match FuncExp.Eval(c),arg with
-        |notFunc,Func(:?Identity as i) when sudoPipe->
+        |notFunc,Func(id) when sudoPipe && id=c.Monad.Return->
             notFunc
         |Func(F),arg->
-            F.Eval(arg)
+             c.Monad.Bind(arg,F)
         |notFunc,arg->
             raise <| NotAFunctionException(notFunc,arg)
 
@@ -35,7 +35,7 @@ type LiteralExpression(lit:PFunOrData,strImage:StringImage option) =
 type ContextIsolationExpression(exp:IExpression) =
     inherit IExpression(None)
     override this.Eval(c) = 
-        exp.Eval(PContext(Some c))
+        exp.Eval(PContext(Some c,c.Monad))
     override this.ToString() = exp.ToString()
     
 type FuncExpression(x:string,exp:IExpression,strImage:StringImage option) = 
@@ -48,7 +48,7 @@ type DefExpression(defname:string,valExp:IExpression,strImage:StringImage option
     inherit IExpression(strImage)
     override this.Eval(c) =
         c.Def defname this.Location (valExp.Eval c)
-        Func(Identity())
+        Func(c.Monad.Return)
 type DefValueExpression(defname:string,strImage:StringImage option) = 
     inherit  IExpression(strImage)
     override this.Eval(c) = 
