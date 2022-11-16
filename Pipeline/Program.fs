@@ -86,7 +86,7 @@ let main argv =
     c.Def("тождество")(-1)(Func <|Identity())
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
-    let result = code.Eval(c)
+    let result = code.Eval(PContext(Some c,c.Monad))
     match result with
     |Func(f) -> 
         printf "\n\nпрограмма завершилась вернув функцию: %O\n" f
