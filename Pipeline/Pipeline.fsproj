@@ -21,6 +21,7 @@
     <Compile Include="AST\Funcs\PrintFunc.fs" />
     <Compile Include="AST\Funcs\RangeFuncs.fs" />
     <Compile Include="AST\Funcs\MathsFuncs.fs" />
+    <Compile Include="AST\Funcs\ComparisonFuncs.fs" />
     <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
     <Compile Include="AST\Expressions\TypeExpressions.fs" />
     <Compile Include="AST\Expressions\FlowExpressions.fs" />
@@ -42,7 +43,7 @@
     <Compile Include="Parser\Expressions\OperationParsers\SeparatorOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\MarkerCheckOperationParser.fs" />
+    <Compile Include="Parser\Expressions\OperationParsers\ComparsionOperationParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\MarkerParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\LazyParser.fs" />

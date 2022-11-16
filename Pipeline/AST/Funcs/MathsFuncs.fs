@@ -12,14 +12,16 @@ type DataOperationFunc() =
         | :? int as a -> this.CurryInt a
         | :? float as a -> this.CurryFloat a
         | :? string as a -> this.CurryString a
+        | :? bool as a -> this.CurryBool a
         | a -> this.CurryObj a
         |> Func
     abstract CurryInt:int->PFunc
     abstract CurryFloat:float->PFunc
     abstract CurryString:string->PFunc
+    abstract CurryBool:bool->PFunc
     abstract CurryObj:obj->PFunc
-    default this.CurryObj a =
-        raise <| System.NotImplementedException()
+    default this.CurryBool a =raise <| System.NotImplementedException()
+    default this.CurryObj a =raise <| System.NotImplementedException()
 [<AbstractClass>]
 type IPerformer<'T>() = 
     abstract Perform:'T*'T->PData
