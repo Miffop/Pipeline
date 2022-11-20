@@ -18,14 +18,20 @@ type PipeExpression(sudoPipe:bool,argExp:IExpression,FuncExp:IExpression,strImag
     override this.Eval(c) = 
         let arg = argExp.Eval(c)
         match FuncExp.Eval(c),arg with
-        |Func(aId),Func(bId) when aId = c.Monad.Return && bId = c.Monad.Return->aId.Eval(Func bId)
-        |notFunc,Func(id) when sudoPipe && id=c.Monad.Return->
+        |notFunc,Func(:?Identity) when sudoPipe->
             notFunc
         |Func(F),arg->
-             c.Monad.Bind(arg,F)
+             F.Eval(arg)
         |notFunc,arg->
             raise <| NotAFunctionException(notFunc,arg)
 
+type BindExpression(argExp:IExpression,FuncExp:IExpression,strImage:StringImage option) = 
+    inherit IExpression(strImage)
+    override this.Eval(c) = 
+        let arg = argExp.Eval(c)
+        match FuncExp.Eval(c),arg with
+        |Func(f),arg->
+            c.Monad.Bind(arg,f)
 //DataOrFunc
 type LiteralExpression(lit:PFunOrData,strImage:StringImage option) = 
     inherit IExpression(strImage)
@@ -37,8 +43,8 @@ type ContextIsolationExpression(exp:IExpression) =
     inherit IExpression(None)
     override this.Eval(c) = 
         exp.Eval(PContext(Some c,c.Monad))
-    override this.ToString() = exp.ToString()
-    
+    override this.ToString() = exp.ToString()    
+
 type FuncExpression(x:string,exp:IExpression,strImage:StringImage option) = 
     inherit IExpression(strImage)
     override this.Eval(c) = 
@@ -48,27 +54,8 @@ type FuncExpression(x:string,exp:IExpression,strImage:StringImage option) =
 type DefExpression(defname:string,valExp:IExpression,strImage:StringImage option) = 
     inherit IExpression(strImage)
     override this.Eval(c) =
-        let loc = this.Location
-        let f =
-            {
-            new PFunc() with
-            member this.Eval(x) = 
-                c.Def defname loc x
-                c.Monad.Return.Eval(Func<|Identity())
-            }
-        let fdef = 
-            {
-            new PFunc() with
-            member this.Eval(x) = 
-                c.Monad.Bind((valExp.Eval c),f) |> ignore
-                c.Monad.Return.Eval(x)
-            member this.Equals(o) = 
-                match o with
-                |x when (x = c.Monad.Return)->true
-                |_->false
-            }
-            
-        (Func fdef)
+        c.Def(defname)(this.Location)(valExp.Eval(c))
+        Func<|Identity()
 
 type DefValueExpression(defname:string,strImage:StringImage option) = 
     inherit  IExpression(strImage)

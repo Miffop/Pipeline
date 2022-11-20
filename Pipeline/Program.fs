@@ -3,7 +3,7 @@ module tokens =
     open Pipeline.Parser.Tokens
     open Pipeline.Parser.Tokens.TokenParsers
 
-    let keyWords = ["пусть";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"ленивое";"маркер"]
+    let keyWords = ["пусть";"от";"до";"для";"с";"к";"на";"как";"в";"выполнить";"вернуть";"если";"то";"иначе";"ленивое";"маркер";"монада";"применить"]
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
@@ -15,6 +15,7 @@ module tokens =
             CommentParser()
             WhitespaceParser()
             ComparisionParser()
+            PipeParser()
         ])
 module simplifications = 
     open Pipeline.Parser.Simplifier
@@ -30,6 +31,7 @@ module simplifications =
             DefineSimplification()
             LambdaSimplification()
             MarkerSimplification()
+            MonadSimplification()
         ])
     
 
@@ -47,6 +49,7 @@ module expressions =
                 LazyParser()
                 DefAndFuncParser()
                 MarkerParser()
+                MonadParser()
             ],
             [
                 MathOperationParser()

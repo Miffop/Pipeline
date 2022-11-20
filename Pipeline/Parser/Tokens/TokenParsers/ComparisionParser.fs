@@ -10,7 +10,7 @@ type ComparisionParser() =
             match code.[index],snd with
             |'>','='
             |'<','='
-            |'<','>'
+            |'!','='
                 ->2
             |'?',_
             |'=',_
