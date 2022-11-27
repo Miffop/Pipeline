@@ -7,18 +7,20 @@ type RangeFunc() =
     override this.EvalData(arg) = 
         match arg with
         | :?int as a -> Func(RangeFuncCurried(a))
-        |_->raise <| WrongTypeException("Range expression",typeof<int>,arg.GetType())
+        |_->raise <| WrongTypeException("от-до",typeof<int>,arg.GetType())
     override this.ToString() = 
-        sprintf "... to ..."
-
+        sprintf "отрезок ... ..."
+    interface PipelineNamedImportable with
+        member this.Name = "отрезок"
+        member this.Import = Func<|RangeFunc()
 and RangeFuncCurried(a:int) = 
     inherit SeparatorFunc()
     override this.EvalData(arg) = 
         match arg with
         | :?int as b -> Data(seq{a..b} |> Seq.map(fun x->Data x))
-        |_->raise <| WrongTypeException("Range expression",typeof<int>,arg.GetType())
+        |_->raise <| WrongTypeException("от-до",typeof<int>,arg.GetType())
     override this.ToString() = 
-        sprintf "%i to ..." a
+        sprintf "отрезок %i ..." a
 
 type RangeFuncWithDelta() =
     inherit SeparatorFunc()

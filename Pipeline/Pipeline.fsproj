@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Test.txt" />
+    <Content Include="zProg\FizzBuzz.txt" />
+    <Content Include="zProg\ForTest.txt" />
+    <Content Include="zProg\MonadTest.txt" />
     <Compile Include="AST\AST.fs" />
     <Compile Include="AST\Exceptions.fs" />
     <Compile Include="AST\PSeq.fs" />
@@ -33,12 +35,14 @@
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
     <Compile Include="Parser\Simplifier\Simplifier.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\ForSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\MonadSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\MarkerSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\LambdaSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\DefineSimplification.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\conversionVariation.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\mathVariation.fs" />
+    <Compile Include="Parser\Simplifier\Simplifications\RangeVariation.fs" />
     <Compile Include="Parser\Simplifier\Simplifications\IfSimpification.fs" />
     <Compile Include="Parser\Expressions\Exceptions.fs" />
     <Compile Include="Parser\Expressions\ExpressionParser.fs" />

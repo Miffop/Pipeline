@@ -13,6 +13,7 @@ type IfSimplification() =
             let findLen offset (word:string seq)=
                 let mutable braceCounter = 0
                 let mutable nestedIfCounter = 0
+                let mutable nestedForCounter = 0
                 let mutable len = 0
                 while not(code.[index+len+offset].Type = "Keyword" && Seq.exists((=)code.[index+len+offset].Content) word && braceCounter = 0 && nestedIfCounter = 0) do
                     match code.[index+len+offset].Type,code.[index+len+offset].Content with
@@ -20,6 +21,8 @@ type IfSimplification() =
                         nestedIfCounter<-nestedIfCounter+1
                     |"Keyword","иначе"->
                         nestedIfCounter<-nestedIfCounter-1
+                    |"Keyword","для"->
+                        nestedForCounter<-nestedForCounter+1
                     |"BraceOpen",_->
                         braceCounter<-braceCounter+1
                     |"BraceClose",_->

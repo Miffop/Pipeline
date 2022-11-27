@@ -24,10 +24,12 @@ module simplifications =
         Simplifier([
             MathsVariation()
             ConvertionVariation()
+            RangeVariation()
         ])
     let simplifier = 
         Simplifier([
             IfSimplification()
+            ForSimplification()
             DefineSimplification()
             LambdaSimplification()
             MarkerSimplification()
@@ -68,7 +70,7 @@ open Pipeline.AST.Expressions
 let main argv =
     
     
-    let path = "./../../../Test.txt"
+    let path = "./../../../zProg/FizzBuzz.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
@@ -83,10 +85,15 @@ let main argv =
 
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
+    let n10 = 
+        [1..10]
+        |>Seq.map(fun x->Data x)
+
     let c = PContext(IdentityMonad())
     c.Def("правда")(-1)(Data true)
     c.Def("ложь")(-1)(Data false)
     c.Def("тождество")(-1)(Func <|Identity())
+    c.Def("ч10")(-1)(Data n10)
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
     let result = code.Eval(PContext(Some c,c.Monad))
