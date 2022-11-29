@@ -17,11 +17,11 @@ type MonadDefExpression(name:string,def:IExpression,s:StringImage option) =
         let mc = PContext(Some c,c.Monad)
         def.Eval(mc)|>ignore
         let bind = 
-            match mc.Defenitions.["связка"].Head |> fst with
+            match mc.Defenitions.[">>="].Head |> fst with
             |Func(f)->f
             |_->raise<|System.NotImplementedException()
         let ret = 
-            match mc.Defenitions.["упаковщик"].Head |> fst with
+            match mc.Defenitions.["упаковать"].Head |> fst with
             |Func(f)->f
             |_->raise<|System.NotImplementedException()
         let mon = CustomMonad(ret,bind)
@@ -34,4 +34,7 @@ type MonadUseExpression(name:string,exp:IExpression,str:StringImage option) =
             match c.Find(name)(this.Location)with
             |Data(:?PMonad as m)->m
             |_->failwith "ожидалась монада"
-        exp.Eval(PContext(Some c,monad))
+        let c = PContext(Some c,monad)
+        c.Def("упаковать")(-1)(Func<|c.Monad.Return)
+        c.Def("начало")(-1)(c.Monad.Return.Eval(Func<|Identity()))
+        exp.Eval(c)

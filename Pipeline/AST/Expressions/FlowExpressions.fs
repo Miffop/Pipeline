@@ -32,6 +32,12 @@ type BindExpression(argExp:IExpression,FuncExp:IExpression,strImage:StringImage 
         match FuncExp.Eval(c),arg with
         |Func(f),arg->
             c.Monad.Bind(arg,f)
+type ThenExpression(AExp:IExpression,BExp:IExpression,strImage:StringImage option) = 
+    inherit IExpression(strImage)
+    override this.Eval(c) = 
+        let A = AExp.Eval(c)
+        match A,BExp.Eval(c) with
+        |a,b->c.Monad.Then(a,b)
 //DataOrFunc
 type LiteralExpression(lit:PFunOrData,strImage:StringImage option) = 
     inherit IExpression(strImage)

@@ -33,7 +33,7 @@ and MarkerFuncCurried(name:string,length:int,elem:PFunOrData list) =
      override this.Eval(arg) = 
         match arg,elem with
         |Data(:?Marker as m),(Data(:?int as x)::[]) when m.Name = name->
-            m.Elements.[x]
+            m.Elements.[m.Elements.Length-1-x]
         |_->
             if length=elem.Length+1 then
                 Data<|Marker(name,arg::elem)

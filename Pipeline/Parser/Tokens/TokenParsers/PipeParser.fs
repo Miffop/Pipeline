@@ -9,11 +9,12 @@ type PipeParser() =
                 code.[index..]
                 |>List.ofSeq
             match str with
-            |'|'::'>'::_
-            |'<'::'|'::_
-                -> 2
             |'>'::'>'::'='::_
                 -> 3
+            |'|'::'>'::_
+            |'<'::'|'::_
+            |'>'::'>'::_
+                -> 2
             |_->(-1)
         member this.GetToken(code,index,prev) =
             (this:>ITokenParser).GetLength(code,index)

@@ -7,6 +7,8 @@ module tokens =
     let tokenParser =         
         TokenParser([
             WordParser(keyWords)
+            QuoteWordParser()
+            WildCardParser()
             ArithmeticParser()
             BraceParser()
             IntParser()
@@ -70,7 +72,7 @@ open Pipeline.AST.Expressions
 let main argv =
     
     
-    let path = "./../../../zProg/FizzBuzz.txt"
+    let path = "./../../../zProg/StateFunc.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     

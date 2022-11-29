@@ -10,7 +10,7 @@ type PipeOperationParser() =
     inherit SeparatorOperationParser()
     override this.GetPriority(op) = 
         match op.Content with
-        |"|>"|"|!>"|">>="
+        |"|>"|"|!>"|">>="|">>"
             ->20
         |_->(-1)
     override this.Nullari(op,strImage) = 
@@ -27,4 +27,5 @@ type PipeOperationParser() =
         |"|>"->PipeExpression(false,l,r,Some strImage)
         |"|!>"->PipeExpression(true,l,r,Some strImage)
         |">>="->BindExpression(l,r,Some strImage)
+        |">>"->ThenExpression(l,r,Some strImage)
         |_->raise<|System.NotImplementedException()

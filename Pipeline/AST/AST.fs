@@ -26,12 +26,18 @@ and PContext(parent:PContext option,monad:PMonad) =
     member this.Monad = monad
 
     member this.Find (defname:string)(location:int) = 
+         if defname = "_" then 
+            failwithf "_ не пременная"
+         else
          match defs.TryGetValue(defname),parent with
          |(true,result),_ when (result|>List.last|>snd)<=location
             ->result |> List.find(fun x->(snd x)<=location) |> fst
          |(false,_),Some(parent)->parent.Find(defname)(location)
          |_->failwithf "определение для %s не найдено" defname
     member this.Def defname location defenition = 
+        if defname = "_" then 
+            ()
+        else
         if defs.ContainsKey(defname) then
             defs.[defname]<-(defenition,location)::defs.[defname]
         else
@@ -42,6 +48,13 @@ and PContext(parent:PContext option,monad:PMonad) =
 and [<AbstractClass>] PMonad() =
     abstract Return:PFunc
     abstract Bind:PFunOrData*PFunc->PFunOrData
+    abstract Then:PFunOrData*PFunOrData->PFunOrData
+    default this.Then (k,m) = 
+        this.Bind(k,{
+            new PFunc() with
+            override this.Eval(arg) = 
+                m
+        })
 //AST Nodes
 
 

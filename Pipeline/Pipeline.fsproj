@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="zProg\StateFunc.txt" />
     <Content Include="zProg\FizzBuzz.txt" />
     <Content Include="zProg\ForTest.txt" />
-    <Content Include="zProg\MonadTest.txt" />
+    <Content Include="zProg\Maybe.txt" />
     <Compile Include="AST\AST.fs" />
     <Compile Include="AST\Exceptions.fs" />
     <Compile Include="AST\PSeq.fs" />
