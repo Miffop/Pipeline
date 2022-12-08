@@ -72,7 +72,7 @@ open Pipeline.AST.Expressions
 let main argv =
     
     
-    let path = "./../../../zProg/StateFunc.txt"
+    let path = "./../../../zProg/FizzBuzz.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
@@ -98,12 +98,18 @@ let main argv =
     c.Def("ч10")(-1)(Data n10)
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
         
-    let result = code.Eval(PContext(Some c,c.Monad))
+    let result = 
+        match code.Eval(PContext(Some c,c.Monad)) with
+        |Func(:?Pipeline.AST.Funcs.Monads.IOType as io) ->
+            io.Perform(Pipeline.AST.Funcs.Monads.RealWorld()) |> snd,"[ВводВывод] и"
+        |x->x,""
+    
+    
     match result with
-    |Func(f) -> 
-        printf "\n\nпрограмма завершилась вернув функцию: %O\n" f
-    |Data(d) ->
-        printf "\n\nпрограмма завершилась вернув: %O\n" d
+    |Func(f),x -> 
+        printf "\n\nпрограмма завершилась вернув %s функцию: %O\n" x f
+    |Data(d),x ->
+        printf "\n\nпрограмма завершилась вернув %s %O\n" x d
     
 
     System.Console.ReadKey() |> ignore

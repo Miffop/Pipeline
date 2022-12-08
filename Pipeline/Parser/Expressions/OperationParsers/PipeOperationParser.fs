@@ -14,7 +14,11 @@ type PipeOperationParser() =
             ->20
         |_->(-1)
     override this.Nullari(op,strImage) = 
-        raise<|System.NotImplementedException()
+        match op.Content with
+        |"|>"->LiteralExpression(PipeFunc(),Some strImage)
+        |">>="->BindFuncLiteralExpression(Some strImage)
+        |">>"->ThenFuncLiteralExpression(Some strImage)
+        |_->raise<|System.NotImplementedException()
     override this.UnaryLeft(op,l,strImage) =
         match op.Content with
         |"|>"->raise<|OperationIsNotUnary(op.Content)

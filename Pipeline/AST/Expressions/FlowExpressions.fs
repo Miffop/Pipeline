@@ -38,6 +38,14 @@ type ThenExpression(AExp:IExpression,BExp:IExpression,strImage:StringImage optio
         let A = AExp.Eval(c)
         match A,BExp.Eval(c) with
         |a,b->c.Monad.Then(a,b)
+type BindFuncLiteralExpression(strImage:StringImage option) = 
+    inherit IExpression(strImage)
+    override this.Eval(c) =
+        Func<|Pipeline.AST.Funcs.BindFunc(c.Monad)
+type ThenFuncLiteralExpression(strImage:StringImage option) = 
+    inherit IExpression(strImage)
+    override this.Eval(c) =
+        Func<|Pipeline.AST.Funcs.ThenFunc(c.Monad)
 //DataOrFunc
 type LiteralExpression(lit:PFunOrData,strImage:StringImage option) = 
     inherit IExpression(strImage)

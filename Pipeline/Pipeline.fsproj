@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="zProg\WhatIsYourName.txt" />
     <Content Include="zProg\StateFunc.txt" />
     <Content Include="zProg\FizzBuzz.txt" />
     <Content Include="zProg\ForTest.txt" />
@@ -18,16 +19,18 @@
     <Compile Include="AST\BasicFuncs.fs" />
     <Compile Include="AST\BasicMonads.fs" />
     <Compile Include="AST\Importable.fs" />
+    <Compile Include="AST\Funcs\PipeFuncs.fs" />
+    <Compile Include="AST\Funcs\Monads\IOMonad.fs" />
     <Compile Include="AST\Funcs\ForLoop.fs" />
     <Compile Include="AST\Funcs\EvalLazy.fs" />
     <Compile Include="AST\Funcs\IfThenElse.fs" />
-    <Compile Include="AST\Funcs\PrintFunc.fs" />
     <Compile Include="AST\Funcs\RangeFuncs.fs" />
     <Compile Include="AST\Funcs\MathsFuncs.fs" />
     <Compile Include="AST\Funcs\ComparisonFuncs.fs" />
     <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
     <Compile Include="AST\Expressions\TypeExpressions.fs" />
     <Compile Include="AST\Expressions\FlowExpressions.fs" />
+    <Compile Include="Extra\Funcs\Seq.fs" />
     <Compile Include="Parser\Tokens\Token.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\PipeParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\ComparisionParser.fs" />

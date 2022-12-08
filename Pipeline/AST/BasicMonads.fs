@@ -14,3 +14,4 @@ type CustomMonad(ret:PFunc,bind:PFunc) =
         match bind.Eval(a) with
         |Func(bindA)->bindA.Eval(Func f)
         |_->failwithf "ожадалась карированная функция"
+ 
