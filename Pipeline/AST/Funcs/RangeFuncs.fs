@@ -7,7 +7,7 @@ type RangeFunc() =
     override this.EvalData(arg) = 
         match arg with
         | :?int as a -> Func(RangeFuncCurried(a))
-        |_->raise <| WrongTypeException("от-до",typeof<int>,arg.GetType())
+        |_->raise <| WrongTypeException("отрезок",typeof<int>,arg.GetType())
     override this.ToString() = 
         sprintf "отрезок ... ..."
     interface PipelineNamedImportable with
@@ -17,8 +17,8 @@ and RangeFuncCurried(a:int) =
     inherit SeparatorFunc()
     override this.EvalData(arg) = 
         match arg with
-        | :?int as b -> Data(seq{a..b} |> Seq.map(fun x->Data x))
-        |_->raise <| WrongTypeException("от-до",typeof<int>,arg.GetType())
+        | :?int as b -> Data([a..b] |> List.map(fun x->Data x))
+        |_->raise <| WrongTypeException("отрезок",typeof<int>,arg.GetType())
     override this.ToString() = 
         sprintf "отрезок %i ..." a
 

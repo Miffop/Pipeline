@@ -13,6 +13,15 @@ and PData = obj
 and PFunOrData = 
     |Func of PFunc
     |Data of PData
+    override this.ToString() = 
+        match this with
+        |Data(:?(PFunOrData list) as l)->
+            l
+            |>List.map(fun x->x.ToString())
+            |>List.reduce(fun a x->sprintf "%s, %s" a x)
+            |>(fun x->sprintf "(%s,[])" x)
+        |Data(d)->d.ToString();
+        |Func(f)->f.ToString();
 
 //Contex
 and PContext(parent:PContext option,monad:PMonad) = 

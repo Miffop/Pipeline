@@ -18,6 +18,7 @@ module tokens =
             WhitespaceParser()
             ComparisionParser()
             PipeParser()
+            ListParser()
         ])
 module simplifications = 
     open Pipeline.Parser.Simplifier
@@ -59,6 +60,7 @@ module expressions =
                 MathOperationParser()
                 PipeOperationParser()
                 MarkerOperationParser()
+                ExtraOperationParser()
             ]
         )
 
@@ -72,19 +74,27 @@ open Pipeline.AST.Expressions
 let main argv =
     
     
-    let path = "./../../../zProg/FizzBuzz.txt"
+    printfn "лексер..."
+    let path = "./../../../zProg/ListTest.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
     (*for t in tokens do
         printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
     *)
+    
+    printfn "преобразователь 1..."
     let tokens = simplifications.preparator.Simplify(tokens,0,tokens.Length)
+    
+    printfn "преобразователь 2..."
     let tokens = simplifications.simplifier.Simplify(tokens,0,tokens.Length)
-    printfn "simplified:"
+    (*printfn "simplified:"
     for t in tokens do
         printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
-
+    *)
+    
+    
+    printfn "парсер..."
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
     let n10 = 
@@ -95,13 +105,13 @@ let main argv =
     c.Def("правда")(-1)(Data true)
     c.Def("ложь")(-1)(Data false)
     c.Def("тождество")(-1)(Func <|Identity())
-    c.Def("ч10")(-1)(Data n10)
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
-        
+    
+    printfn "выполняется..."
     let result = 
         match code.Eval(PContext(Some c,c.Monad)) with
-        |Func(:?Pipeline.AST.Funcs.Monads.IOType as io) ->
-            io.Perform(Pipeline.AST.Funcs.Monads.RealWorld()) |> snd,"[ВводВывод] и"
+        |Func(:?Pipeline.Extra.Types.IOType as io) ->
+            io.Perform(Pipeline.Extra.Types.RealWorld()) |> snd,"[ВводВывод] и"
         |x->x,""
     
     

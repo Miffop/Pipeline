@@ -15,7 +15,7 @@ type ForSimplification() =
             let seqDefLength = 
                 let mutable len = 0
                 let braceCounter = ref 0
-                while !braceCounter>0 || sc.[len+3]<>("Keyword","выполнить") && sc.[len+3]<>("Keyword","вернуть") do
+                while !braceCounter>0 || sc.[len+3]<>("Keyword","вернуть") do
                     match sc.[len+3] with
                     |"BraceOpen",_->incr braceCounter
                     |"BraceClose",_->decr braceCounter
@@ -35,8 +35,5 @@ type ForSimplification() =
             let seqDef = 
                 enclose(code.[index+3..index+2+seqDefLength])
             let mapOrIter =     
-                if code.[index+3+seqDefLength].Content = "вернуть" then
-                    "отобразить"
-                else
-                    "перебрать"
+                "отобразить"
             Some<|{CodeReplacement.NewCode = Token("Word",mapOrIter,code.[index])::mapFunc@seqDef;Length = 3+seqDefLength+1+funLength;Resimplify=false}

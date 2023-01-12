@@ -3,7 +3,10 @@
 // Seq
 
 
-type PSeq = seq<PFunOrData>
+//type PSeq = seq<PFunOrData>
+type PList = PFunOrData list
+
+
 
 (*[<AutoOpen>]
 module PSeqExtentions =
