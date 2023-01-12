@@ -12,7 +12,7 @@ type ListMonad() =
             |>List.collect(fun x->
                 match f.Eval(x) with
                 |Data(:?PList as l)->l
-                |_->failwith "ожидался список"
+                |x->failwith "ожидался список"
             )
             |>(fun x->Data x)
         |_->failwith "ожидался список"

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="zProg\LogicsTest.txt" />
     <Content Include="zProg\limit.txt" />
     <Content Include="zProg\ListTest.txt" />
     <Content Include="zProg\WhatIsYourName.txt" />
@@ -28,6 +29,7 @@
     <Compile Include="AST\Funcs\RangeFuncs.fs" />
     <Compile Include="AST\Funcs\MathsFuncs.fs" />
     <Compile Include="AST\Funcs\ComparisonFuncs.fs" />
+    <Compile Include="AST\Funcs\LogicFuncs.fs" />
     <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
     <Compile Include="AST\Expressions\TypeExpressions.fs" />
     <Compile Include="AST\Expressions\FlowExpressions.fs" />
@@ -39,6 +41,7 @@
     <Compile Include="Parser\Tokens\TokenParsers\ListParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\PipeParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\ComparisionParser.fs" />
+    <Compile Include="Parser\Tokens\TokenParsers\LogicParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\CommentParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
@@ -60,6 +63,7 @@
     <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\ComparsionOperationParser.fs" />
+    <Compile Include="Parser\Expressions\OperationParsers\LogicOperationParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\MonadParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\MarkerParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />

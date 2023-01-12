@@ -20,6 +20,8 @@ and PFunOrData =
             |>List.map(fun x->x.ToString())
             |>List.reduce(fun a x->sprintf "%s, %s" a x)
             |>(fun x->sprintf "(%s,[])" x)
+        |Data(:?bool as b)->if b then "правда" else "ложь"
+
         |Data(d)->d.ToString();
         |Func(f)->f.ToString();
 

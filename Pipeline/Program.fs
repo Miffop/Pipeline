@@ -17,6 +17,7 @@ module tokens =
             CommentParser()
             WhitespaceParser()
             ComparisionParser()
+            LogicParser()
             PipeParser()
             ListParser()
         ])
@@ -59,7 +60,8 @@ module expressions =
             [
                 MathOperationParser()
                 PipeOperationParser()
-                MarkerOperationParser()
+                ComparisonOperationParser()
+                LogicOperationParser()
                 ExtraOperationParser()
             ]
         )
@@ -75,7 +77,7 @@ let main argv =
     
     
     printfn "лексер..."
-    let path = "./../../../zProg/ListTest.txt"
+    let path = "./../../../zProg/LogicsTest.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
@@ -119,7 +121,7 @@ let main argv =
     |Func(f),x -> 
         printf "\n\nпрограмма завершилась вернув %s функцию: %O\n" x f
     |Data(d),x ->
-        printf "\n\nпрограмма завершилась вернув %s %O\n" x d
+        printf "\n\nпрограмма завершилась вернув %s %O\n" x (Data d)
     
 
     System.Console.ReadKey() |> ignore
