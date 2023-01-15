@@ -76,8 +76,8 @@ open Pipeline.AST.Expressions
 let main argv =
     
     
-    printfn "лексер..."
-    let path = "./../../../zProg/LogicsTest.txt"
+    //printfn "лексер..."
+    let path = argv.[0];//"./../../../zProg/prog.txt"
     let code = System.IO.File.ReadAllText(path)+" \n "
     let tokens = tokens.tokenParser.Parse(code)
     
@@ -85,10 +85,10 @@ let main argv =
         printfn "(%s;\t %s\tL %i\tM %i\tO %i)" t.Type t.Content t.Line t.Margin t.Offset
     *)
     
-    printfn "преобразователь 1..."
+    //printfn "преобразователь 1..."
     let tokens = simplifications.preparator.Simplify(tokens,0,tokens.Length)
     
-    printfn "преобразователь 2..."
+    //printfn "преобразователь 2..."
     let tokens = simplifications.simplifier.Simplify(tokens,0,tokens.Length)
     (*printfn "simplified:"
     for t in tokens do
@@ -96,7 +96,7 @@ let main argv =
     *)
     
     
-    printfn "парсер..."
+    //printfn "парсер..."
     let code = expressions.expParser.ParseCodeBlock(tokens,0)
 
     let n10 = 
@@ -109,7 +109,7 @@ let main argv =
     c.Def("тождество")(-1)(Func <|Identity())
     c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
     
-    printfn "выполняется..."
+    //printfn "выполняется..."
     let result = 
         match code.Eval(PContext(Some c,c.Monad)) with
         |Func(:?Pipeline.Extra.Types.IOType as io) ->

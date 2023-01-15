@@ -90,3 +90,4 @@ type IExpression(s:StringImage option) =
 //Lazy
 type PLazy(exp:IExpression,c:PContext) = 
     member this.Value = exp.Eval(c)
+    override this.ToString() = "[ЛенивоеВычисление]"
