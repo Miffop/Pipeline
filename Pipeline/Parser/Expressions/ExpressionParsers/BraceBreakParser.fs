@@ -1,7 +1,6 @@
 ﻿namespace Pipeline.Parser.Expressions.ExpressionParsers
 
 open Pipeline.AST
-open Pipeline.AST.Expressions
 open Pipeline.Parser.Tokens
 open Pipeline.Parser.Expressions
 

@@ -3,25 +3,22 @@
 open Pipeline.AST
 open Pipeline.Parser.Tokens
 
-type EmptyExpression() = 
-    inherit IExpression(None)
-    override this.Eval(c) = Func(Identity())
 
 type [<AbstractClass>] IOperationExpressionParser() = 
     abstract GetPriority:op:Token->int
     abstract GetOrderDirection:op:Token->bool //true - leftToRight, false -  rightToLeft
     default this.GetOrderDirection(op) = true
-    abstract GetExpression:op:Token*left:IExpression*right:IExpression*strImage:StringImage->IExpression // if there is no right or left expression there will be empty expression
+    abstract GetExpression:op:Token*left:Expression*right:Expression*strImage:StringImage->Expression // if there is no right or left expression there will be empty expression
 
 and [<AbstractClass>] IExpressionParser() = 
-    abstract GetExpression:code:Token list*index:int*length:int*ep:ExpressionParser->IExpression option
+    abstract GetExpression:code:Token list*index:int*length:int*ep:ExpressionParser->Expression option
 
 and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressionParser seq) =
     
     
     member this.ParseExpression(code:Token list,index:int,length:int) = 
         if length = 0 then 
-            EmptyExpression() :> IExpression
+            NullExpression
         else
         let ops = [
             let mutable i = 0
@@ -69,7 +66,7 @@ and ExpressionParser(expParser:IExpressionParser seq,opParser:IOperationExpressi
                         len<-len+1
                 let strImage = 
                     this.CreateStringImage(code,index,length)
-                Pipeline.AST.Expressions.ApplyExpression(this.ParseExpression(code,index,length-len),this.ParseExpression(code,index+length-len,len),Some<|strImage)      
+                Apply(this.ParseExpression(code,index,length-len),this.ParseExpression(code,index+length-len,len))      
     member this.CreateStringImage (ST:Token,ET:Token)=   
         if ST.Location.CodeRef <> ET.Location.CodeRef then raise<|System.NotImplementedException()
         {CodeRef = ST.Location.CodeRef;StringImage.SI = ST.Location.SI;StringImage.EI = ET.Location.EI}

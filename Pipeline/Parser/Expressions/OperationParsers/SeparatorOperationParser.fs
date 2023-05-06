@@ -9,14 +9,14 @@ type SeparatorOperationParser() =
     inherit IOperationExpressionParser()
     override this.GetExpression(op,left,right,strImage)  =
         match left,right with
-        | :? EmptyExpression as _, :? EmptyExpression as _ -> this.Nullari(op,strImage)
-        | l, :? EmptyExpression as _ -> this.UnaryLeft(op,l,strImage)
-        | :? EmptyExpression as _,r -> this.UnaryRight(op,r,strImage)
+        | NullExpression, NullExpression -> this.Nullari(op,strImage)
+        | l, NullExpression -> this.UnaryLeft(op,l,strImage)
+        | NullExpression as _,r -> this.UnaryRight(op,r,strImage)
         | l,r -> this.Binary(op,l,r,strImage)
-    abstract Nullari:op:Token*strImage:StringImage->IExpression
-    abstract UnaryLeft:op:Token*left:IExpression*strImage:StringImage->IExpression
-    abstract UnaryRight:op:Token*right:IExpression*strImage:StringImage->IExpression
-    abstract Binary:op:Token*left:IExpression*right:IExpression*strImage:StringImage->IExpression
+    abstract Nullari:op:Token*strImage:StringImage->Expression
+    abstract UnaryLeft:op:Token*left:Expression*strImage:StringImage->Expression
+    abstract UnaryRight:op:Token*right:Expression*strImage:StringImage->Expression
+    abstract Binary:op:Token*left:Expression*right:Expression*strImage:StringImage->Expression
 
     
     default this.Nullari (op,sI) = raise<|System.NotImplementedException()

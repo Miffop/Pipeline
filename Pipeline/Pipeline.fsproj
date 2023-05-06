@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="zProg\test.txt" />
     <Content Include="zProg\LogicsTest.txt" />
     <Content Include="zProg\limit.txt" />
     <Content Include="zProg\ListTest.txt" />
@@ -16,27 +17,7 @@
     <Content Include="zProg\ForTest.txt" />
     <Content Include="zProg\Maybe.txt" />
     <Compile Include="AST\AST.fs" />
-    <Compile Include="AST\Exceptions.fs" />
-    <Compile Include="AST\PSeq.fs" />
-    <Compile Include="AST\Markers.fs" />
-    <Compile Include="AST\BasicFuncs.fs" />
-    <Compile Include="AST\BasicMonads.fs" />
     <Compile Include="AST\Importable.fs" />
-    <Compile Include="AST\Funcs\PipeFuncs.fs" />
-    <Compile Include="AST\Funcs\ForLoop.fs" />
-    <Compile Include="AST\Funcs\EvalLazy.fs" />
-    <Compile Include="AST\Funcs\IfThenElse.fs" />
-    <Compile Include="AST\Funcs\RangeFuncs.fs" />
-    <Compile Include="AST\Funcs\MathsFuncs.fs" />
-    <Compile Include="AST\Funcs\ComparisonFuncs.fs" />
-    <Compile Include="AST\Funcs\LogicFuncs.fs" />
-    <Compile Include="AST\Funcs\ConvertionFuncs.fs" />
-    <Compile Include="AST\Expressions\TypeExpressions.fs" />
-    <Compile Include="AST\Expressions\FlowExpressions.fs" />
-    <Compile Include="Extra\Types\IOMonad.fs" />
-    <Compile Include="Extra\Types\Maybe.fs" />
-    <Compile Include="Extra\Types\Pair.fs" />
-    <Compile Include="Extra\Types\List.fs" />
     <Compile Include="Parser\Tokens\Token.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\ListParser.fs" />
     <Compile Include="Parser\Tokens\TokenParsers\PipeParser.fs" />
@@ -64,11 +45,9 @@
     <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\ComparsionOperationParser.fs" />
     <Compile Include="Parser\Expressions\OperationParsers\LogicOperationParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\MonadParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\MarkerParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\LazyParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\DefValueParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\MonadParser.fs" />
+    <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\BraceBreakParser.fs" />
     <Compile Include="Parser\Expressions\ExpressionParsers\LiteralParser.fs" />
     <Compile Include="Program.fs" />

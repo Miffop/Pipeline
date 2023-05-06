@@ -1,7 +1,6 @@
 ﻿namespace Pipeline.Parser.Expressions.ExpressionParsers
 
 open Pipeline.AST
-open Pipeline.AST.Expressions
 open Pipeline.Parser.Tokens
 open Pipeline.Parser.Expressions
 
@@ -13,9 +12,9 @@ type LiteralParser() =
             let tok = (Seq.item index code)
             let strImage =Some<|ep.CreateStringImage(code,index,length)
             match tok.Type with
-            |"String" ->Some<|LiteralExpression(tok.Content,strImage)
-            |"Int" ->Some<|LiteralExpression(tok.Content |> System.Int32.Parse,strImage)
-            |"Float" ->Some<|LiteralExpression(tok.Content|>float,strImage)
+            |"String" ->Some<|String(tok.Content)
+            |"Int" ->Some<|Int(tok.Content |> System.Int32.Parse)
+            |"Float" ->Some<|Float(tok.Content|>float)
             |_->None
         else
             None

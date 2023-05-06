@@ -1,8 +1,8 @@
 ﻿namespace Pipeline.Parser.Expressions.ExpressionParsers
 
 open Pipeline.Parser.Expressions
-open Pipeline.AST.Expressions
 
+(*
 type MonadParser() = 
     inherit IExpressionParser()
     override this.GetExpression(code,index,length,ep) = 
@@ -14,3 +14,5 @@ type MonadParser() =
             |_->None
         else
             None
+
+*)
