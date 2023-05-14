@@ -12,9 +12,9 @@ type LogicOperationParser() =
         |_->(-1)
     override this.Nullari(op,strImage) = 
         match op.Content with
-        |"&"->Op ALU.LAnd
-        |"|"->Op ALU.LOr
-        |"^"->Op ALU.LXor
+        |"&"->F Function.LAnd
+        |"|"->F Function.LOr
+        |"^"->F Function.LXor
         |_->raise<|System.NotImplementedException()
     override this.Binary(op,l,r,strImage) = 
         Apply(Apply(this.Nullari(op,strImage),l),r)

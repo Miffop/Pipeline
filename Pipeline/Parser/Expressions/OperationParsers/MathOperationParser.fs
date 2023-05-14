@@ -13,16 +13,16 @@ type MathOperationParser() =
         |_->(-1)
     override this.Nullari(op,strImage) = 
         match op.Content with
-        |"+"->Op(ALU.Add)
-        |"-"->Op(ALU.Sub)
-        |"*"->Op(ALU.Mul)
-        |"/"->Op(ALU.Div)
-        |"%"->Op(ALU.Mod)
+        |"+"->F Function.Add
+        |"-"->F Function.Sub
+        |"*"->F Function.Mul
+        |"/"->F Function.Div
+        |"%"->F Function.Mod
         |_->raise<|System.NotImplementedException()
     override this.UnaryRight(op,r,strImage) = 
         match op.Content with
         |"+"->Apply(F Function.I,r)
-        |"-"->Apply(Op ALU.Neg,r)
+        |"-"->Apply(F Function.Neg,r)
         |_->raise<|OperationIsNotUnary(op.Content)
     override this.UnaryLeft(op,l,strImage) = 
         match op.Content with

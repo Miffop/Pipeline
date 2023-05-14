@@ -63,6 +63,26 @@ module expressions =
             ]
         )
 
+module matcher = 
+    open Pipeline.AST
+    let reductions = 
+        [
+            Reductions.Maths.arithmetic
+            Reductions.Maths.comparison
+            Reductions.Maths.logic
+            Reductions.Maths.bitwise
+            Reductions.Maths.errors
+            
+            Reductions.Data.pair
+            Reductions.Data.list
+            Reductions.Data.maybe
+            Reductions.Data.IOMonad
+            
+            Reductions.unlambda
+            Reductions.combinators
+            Reductions.errorHandling
+        ]
+        |>Match.choose
 
 open Pipeline.AST
 
@@ -97,12 +117,15 @@ let main argv =
 
     //c.Merge <| PipelineReflectionImporter.ImportAsm(System.Reflection.Assembly.GetExecutingAssembly())
     
+
+   
+
     //printfn "выполняется..."
     let result =
-        Execution.execution code
+        Execution.execution matcher.reductions code
         
     result
-    |>Seq.iter(printfn "%A")
+    |>Seq.iter(printfn "[%O]")
     
     
     match Seq.last result with

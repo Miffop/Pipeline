@@ -16,12 +16,12 @@ type ComparisonOperationParser() =
         |_->(-1)
     override this.Nullari(op,strImage) = 
         match op.Content with
-        |"="->Op ALU.Eql
-        |"!="->Op ALU.Neq
-        |">"->Op ALU.Grt
-        |"<"->Apply(F Function.C,Op ALU.Grt)
-        |">="->Op ALU.Geq
-        |"<="->Apply(F Function.C,Op ALU.Geq)
+        |"="->F Function.Eql
+        |"!="->F Function.Neq
+        |">"->F Function.Grt
+        |"<"->Apply(F Function.C,F Function.Grt)
+        |">="->F Function.Geq
+        |"<="->Apply(F Function.C,F Function.Geq)
         |_->raise<|System.NotImplementedException()
     override this.Binary(op,l,r,strImage) = 
         Apply(Apply(this.Nullari(op,strImage),l),r)

@@ -16,5 +16,6 @@ type LiteralParser() =
             |"Int" ->Some<|Int(tok.Content |> System.Int32.Parse)
             |"Float" ->Some<|Float(tok.Content|>float)
             |_->None
+            |>Option.map L
         else
             None
