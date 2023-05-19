@@ -1,16 +1,11 @@
 ﻿namespace Pipeline.AST
 
+open Pipeline
 
 type Matcher<'a,'b> = 
     |M of ('a -> 'b option)
 
-type OptionMonad() = 
-    member this.Return x = Some x
-    member this.ReturnFrom x = x
-    member this.Bind(Ma,f) = 
-        match Ma with
-        |Some(a)->f a
-        |None->None
+
 
 module Match = 
     let fail = M(fun _ -> None)

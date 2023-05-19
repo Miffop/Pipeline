@@ -7,51 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="zProg\test.txt" />
-    <Content Include="zProg\LogicsTest.txt" />
-    <Content Include="zProg\limit.txt" />
-    <Content Include="zProg\ListTest.txt" />
-    <Content Include="zProg\WhatIsYourName.txt" />
-    <Content Include="zProg\StateFunc.txt" />
-    <Content Include="zProg\FizzBuzz.txt" />
-    <Content Include="zProg\ForTest.txt" />
-    <Content Include="zProg\Maybe.txt" />
+    <Content Include="zProg\нод.txt" />
+    <Compile Include="Monads.fs" />
     <Compile Include="AST\Matching.fs" />
     <Compile Include="AST\AST.fs" />
     <Compile Include="AST\Recductions.fs" />
     <Compile Include="AST\Importable.fs" />
-    <Compile Include="Parser\Tokens\Token.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\ListParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\PipeParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\ComparisionParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\LogicParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\CommentParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\MathsParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\LiteralParser.fs" />
-    <Compile Include="Parser\Tokens\TokenParsers\WordParser.fs" />
-    <Compile Include="Parser\Simplifier\Simplifier.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\ForSimplification.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\MonadSimplification.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\MarkerSimplification.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\LambdaSimplification.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\DefineSimplification.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\conversionVariation.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\mathVariation.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\RangeVariation.fs" />
-    <Compile Include="Parser\Simplifier\Simplifications\IfSimpification.fs" />
-    <Compile Include="Parser\Expressions\Exceptions.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\SeparatorOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\ExtraOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\MathOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\PipeOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\ComparsionOperationParser.fs" />
-    <Compile Include="Parser\Expressions\OperationParsers\LogicOperationParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\DefValueParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\MonadParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\DefAndFuncParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\BraceBreakParser.fs" />
-    <Compile Include="Parser\Expressions\ExpressionParsers\LiteralParser.fs" />
+    <Compile Include="Parser\Parser.fs" />
+    <Compile Include="Parser\Indentation.fs" />
+    <Compile Include="Parser\Tokenisation.fs" />
+    <Compile Include="Parser\Expression.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>

@@ -32,7 +32,7 @@ module Reductions =
             //|List(el)->List.exists(isOccuringFree term)el
             //|Maybe(Some(e))-> isOccuringFree term e
             |_->false
-        let rec reduceT exp = 
+        (*let rec reduceT exp = 
             match exp with
             |Lambda(x,Apply(e,Term(y)))      when not(isOccuringFree x e) && x = y           -> e
             |Lambda(x,e)                     when not(isOccuringFree x e)                    -> Apply(F(Function.K),e)
@@ -41,7 +41,18 @@ module Reductions =
             |Lambda(x,Apply(e1,e2))          when isOccuringFree x e1                        -> Apply(Apply(F(Function.C),Lambda(x,e1)) ,e2)
             |Lambda(x,Apply(e1,e2))          when isOccuringFree x e2                        -> Apply(Apply(F(Function.B),e1)           ,Lambda(x,e2))
             |Lambda(x,e)                                                                     -> Lambda(x,reduceT(e))
+            |x->x*)
+        let rec reduceT = 
+            function
+            |Lambda(x,Apply(e,Term(y)))      when not(isOccuringFree x e) && x = y           -> e
+            |Lambda(x,e)                     when not(isOccuringFree x e)                    -> Apply(F(Function.K),e)
+            |Lambda(x,Term(y))               when x=y                                        -> F(Function.I)
+            |Lambda(x,Apply(e1,e2))          when isOccuringFree x e1 && isOccuringFree x e2 -> Apply(Apply(F(Function.S),reduceT<|Lambda(x,e1))    ,reduceT<|Lambda(x,e2))
+            |Lambda(x,Apply(e1,e2))          when isOccuringFree x e1                        -> Apply(Apply(F(Function.C),reduceT<|Lambda(x,e1))    ,e2)
+            |Lambda(x,Apply(e1,e2))          when isOccuringFree x e2                        -> Apply(Apply(F(Function.B),e1)                       ,reduceT<|Lambda(x,e2))
+            |Lambda(x,e)                                                                     -> Lambda(x,reduceT(e))
             |x->x
+            
         M(
             function
             |Lambda(x,e)->                                         Some<|reduceT(Lambda(x,e))
@@ -110,8 +121,8 @@ module Reductions =
            )
            M(
             function
-            |Apply(Apply(L(Logic true), x),y)->Some<|x
-            |Apply(Apply(L(Logic false),x),y)->Some<|y
+            |Apply(Apply(Apply(F Function.If,L(Logic true)), x),y)->Some<|x
+            |Apply(Apply(Apply(F Function.If,L(Logic false)),x),y)->Some<|y
             |_->None
            )
           ]

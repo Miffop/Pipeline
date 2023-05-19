@@ -33,6 +33,7 @@ type Function =
     |LOr            = 0x0121
     |LXor           = 0x0122
     |LNot           = 0x0123
+    |If             = 0x0124
     (* 0x013 Bitwise operations *)
     |BAnd           = 0x0130
     |BOr            = 0x0131
@@ -86,6 +87,8 @@ type Literal =
 
 type Expression = 
     |F of Function
+    //unlambda marker
+    |T of Expression
     //No expression marker
     |NullExpression
     //Basic types
@@ -118,6 +121,7 @@ type Expression =
         |RealWorld      -> sprintf "@rw"
         //errors
         |Error(e)       -> sprintf "@error"
+        |T(x)           -> sprintf "T[%O]" x
         
 module Execution = 
     
@@ -138,7 +142,7 @@ module Execution =
         
     
     
-    let execution matcher = 
-        Seq.unfold(fun x->let y = reduce matcher x in if x=y then None else Some(y,y))
-        
+    let execution matcher a = 
+        Seq.unfold(fun x->let y = reduce matcher x in if x=y then None else Some(y,y)) a
+        |>Seq.insertAt 0 a
         
