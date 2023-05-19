@@ -31,7 +31,7 @@ let main argv =
     
 
     //printfn "лексер..."
-    let path = (*argv.[0];*)"./../../../zProg/test.txt"
+    let path = (*argv.[0];*)"./../../../zProg/нод.txt"
     let code = System.IO.File.ReadAllText(path)+" \n"
 
     if code.Contains "\t" then 
